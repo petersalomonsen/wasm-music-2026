@@ -106,13 +106,15 @@ snare.steps(4,[
 
 hihat.steps(4,[ fs3,,fs3,, ].repeat(16));
 
-// pad test part — sustained chords following the bass roots (channel 5)
-createTrack(5).play([
-  [ 0,  f4(3.5, 70),  c5(3.5, 70),  f5(3.5, 70)  ],
-  [ 4,  g4(3.5, 70),  d5(3.5, 70),  g5(3.5, 70)  ],
-  [ 8,  gs4(3.5, 70), ds5(3.5, 70), gs5(3.5, 70) ],
-  [ 12, as4(3.5, 70), f5(3.5, 70),  as5(3.5, 70) ],
-]);
+createTrack(5).play([[ 2.49, ds5(0.42, 100) ],
+[ 2.93, f5(0.69, 100) ],
+[ 3.97, as5(1.60, 100) ],
+[ 6.0, f5(1.69, 100) ],
+[ 7.53, ds5(2.83, 100) ],
+[ 10.47, f5(0.34, 100) ],
+[ 11.01, g5(0.58, 100) ],
+[ 11.97, f5(1.72, 100) ],
+[ 14.09, g5(1.14, 100) ]].quantize(4));
 
 // wait for the beat (not the bass) so bass, lead and drums all run together
 await waitForBeat(16);
