@@ -2,9 +2,15 @@ setBPM(140);
 
 addInstrument('bass');   // channel 0
 addInstrument('lead');   // channel 1
+addInstrument('kick');   // channel 2
+addInstrument('snare');  // channel 3
+addInstrument('hihat');  // channel 4
 
 const bass = createTrack(0, 4, 100);
 const lead = createTrack(1, 4, 90);
+const kick = createTrack(2, 4, 110);
+const snare = createTrack(3, 4, 100);
+const hihat = createTrack(4, 4, 70);
 
 startRecording();
 createTrack(1).play([[ 0.58, f5(0.06, 42) ],
@@ -53,7 +59,7 @@ createTrack(1).play([[ 0.58, f5(0.06, 42) ],
 [ 14.45, d5(0.37, 54) ],
 [ 14.43, as4(0.39, 66) ]].quantize(4));
 
-await createTrack(0).steps(4,[
+createTrack(0).steps(4,[
 
   f2,,,,
   f2(0.2),,,,
@@ -73,5 +79,33 @@ await createTrack(0).steps(4,[
   as2(0.2),,,,
   
 ]);
+
+// jungle drum break — same 16-beat length as the bass line, all fire-and-forget
+kick.steps(4,[
+  c3,,,,
+  ,,,,
+  ,,c3,,
+  ,,,,
+  c3,,,,
+  ,c3,,,
+  ,,c3,,
+  ,,,,
+].repeat(2));
+
+snare.steps(4,[
+  ,,,,
+  d3,,,,
+  ,,,,
+  d3,,,d3,
+  ,,,,
+  d3,,,d3,
+  ,,,,
+  d3,,,,
+].repeat(2));
+
+hihat.steps(4,[ fs3,,fs3,, ].repeat(16));
+
+// wait for the beat (not the bass) so bass, lead and drums all run together
+await waitForBeat(16);
 stopRecording();
 loopHere();
