@@ -5,6 +5,7 @@ addInstrument('lead');   // channel 1
 addInstrument('kick');   // channel 2
 addInstrument('snare');  // channel 3
 addInstrument('hihat');  // channel 4
+addInstrument('pad');    // channel 5
 
 const bass = createTrack(0, 4, 100);
 const lead = createTrack(1, 4, 90);
@@ -104,6 +105,14 @@ snare.steps(4,[
 ].repeat(2));
 
 hihat.steps(4,[ fs3,,fs3,, ].repeat(16));
+
+// pad test part — sustained chords following the bass roots (channel 5)
+createTrack(5).play([
+  [ 0,  f4(3.5, 70),  c5(3.5, 70),  f5(3.5, 70)  ],
+  [ 4,  g4(3.5, 70),  d5(3.5, 70),  g5(3.5, 70)  ],
+  [ 8,  gs4(3.5, 70), ds5(3.5, 70), gs5(3.5, 70) ],
+  [ 12, as4(3.5, 70), f5(3.5, 70),  as5(3.5, 70) ],
+]);
 
 // wait for the beat (not the bass) so bass, lead and drums all run together
 await waitForBeat(16);
