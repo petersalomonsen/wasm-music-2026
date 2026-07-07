@@ -7,37 +7,15 @@ addInstrument('snare');  // channel 3
 addInstrument('hihat');  // channel 4
 addInstrument('pad');    // channel 5
 
-const bass = createTrack(0, 4, 100);
-const lead = createTrack(1, 4, 90);
-const kick = createTrack(2, 4, 110);
+// tracks
+const bass  = createTrack(0, 4, 100);
+const lead  = createTrack(1, 4, 90);
+const kick  = createTrack(2, 4, 110);
 const snare = createTrack(3, 4, 100);
 const hihat = createTrack(4, 4, 70);
-const pad = createTrack(5, 4, 100);
+const pad   = createTrack(5, 4, 100);
 
-const waitBeats = (beats) => createTrack(0).steps(1, [,].repeat(beats -1));
-
-// ---- reusable 16-beat parts (re-fired at the current global beat each sequence) ----
-
-const bassPattern = [
-  f2,,,,
-  f2(0.2),,,,
-  f2(0.2),,,,
-  f2(0.2),,,,
-  g2,,,,
-  g2(0.2),,,,
-  g2(0.2),,,,
-  g2(0.2),,,,
-  gs2,,,,
-  gs2(0.2),,,,
-  gs2(0.2),,,,
-  gs2(0.2),,,,
-  as2,,,,
-  as2(0.2),,,,
-  as2(0.2),,,,
-  as2(0.2),,,,
-];
-
-// 8-beat jungle break, played twice = one 16-beat sequence
+// ---- drum patterns (jungle break) ----
 const kickPattern = [
   c3,,,,
   ,,,,
@@ -61,6 +39,29 @@ const snarePattern = [
 ].repeat(1);
 
 const hihatPattern = [ fs3,,fs3,, ].repeat(15); // 16 beats
+
+// ============================================================
+//  INTRO build-up (plays once)
+// ============================================================
+
+const bassPattern = [
+  f2,,,,
+  f2(0.2),,,,
+  f2(0.2),,,,
+  f2(0.2),,,,
+  g2,,,,
+  g2(0.2),,,,
+  g2(0.2),,,,
+  g2(0.2),,,,
+  gs2,,,,
+  gs2(0.2),,,,
+  gs2(0.2),,,,
+  gs2(0.2),,,,
+  as2,,,,
+  as2(0.2),,,,
+  as2(0.2),,,,
+  as2(0.2),,,,
+];
 
 const leadNotes = [[ 0.58, f5(0.06, 42) ],
 [ 0.52, gs4(0.26, 63) ],
@@ -118,13 +119,10 @@ const padNotes = [[ 2.49, ds5(0.42, 100) ],
 [ 11.97, f5(1.72, 100) ],
 [ 14.09, g5(1.14, 100) ]].quantize(4);
 
-// fire-and-forget layer triggers (schedule at the current global beat)
 const playBass  = () => bass.steps(4, bassPattern);
 const playLead  = () => lead.play(leadNotes);
 const playDrums = () => { kick.steps(4, kickPattern); snare.steps(4, snarePattern); hihat.steps(4, hihatPattern); };
 const playPad   = () => pad.play(padNotes);
-
-
 
 // 1) bass + lead only
 playBass(); playLead();
@@ -137,7 +135,6 @@ await waitForBeat(32);
 // 3) + pad
 playBass(); playLead(); playDrums(); playPad();
 await waitForBeat(48);
-
 
 createTrack(5).play([[ 12.57, ds6(0.42, 69) ],
 [ 13.54, controlchange(64, 127) ],
@@ -153,63 +150,86 @@ createTrack(5).play([[ 12.57, ds6(0.42, 69) ],
 playBass(); playLead(); playDrums(); playPad();
 await waitForBeat(64);
 
-createTrack(5).play([[ 2.97, as6(0.57, 89) ],
-[ 3.97, controlchange(64, 127) ],
-[ 3.52, g6(3.59, 88) ],
-[ 7.34, controlchange(64, 0) ],
-[ 7.11, as6(0.54, 97) ],
-[ 7.95, controlchange(64, 127) ],
-[ 7.57, f6(3.43, 84) ],
-[ 10.99, ds6(0.49, 81) ],
-[ 11.87, controlchange(64, 0) ],
-[ 13.48, controlchange(64, 127) ],
-[ 11.54, c6(4.04, 74) ],
-[ 15.93, controlchange(64, 0) ]].quantize(4));
+// ============================================================
+//  MAIN arrangement of the recorded parts (loops)
+// ============================================================
 
-
-createTrack(0).play([[ 0.0, c5(3.99, 97) ],
-[ 0, gs5(3.99, 84) ],
-[ 0, f5(3.99, 93) ],
-[ 4, c5(3.99, 99) ],
-[ 4, g5(3.99, 94) ],
-[ 4, ds5(3.99, 92) ],
-[ 8, ds5(3.99, 97) ],
-[ 8, g5(3.99, 79) ],
-[ 8, as4(3.99, 94) ],
-[ 12, gs4(3.99, 88) ],
-[ 12, c5(3.99, 94) ]]);
-
-createTrack(1).play([[ 0.05, f6(0.41, 97) ],
-[ 1.00, f6(0.47, 98) ],
-[ 1.98, ds6(0.43, 84) ],
-[ 2.49, f6(0.57, 89) ],
-[ 3.49, c6(0.49, 70) ],
-[ 4.02, ds6(0.43, 86) ],
-[ 4.97, ds6(0.54, 84) ],
-[ 5.97, c6(0.54, 82) ],
-[ 6.50, ds6(0.34, 83) ],
-[ 7.52, c6(0.38, 68) ],
-[ 8.05, ds6(0.45, 94) ],
-[ 9.02, ds6(0.51, 92) ],
-[ 10.00, c6(0.53, 84) ],
-[ 10.51, ds6(0.42, 77) ],
-[ 11.49, as5(0.57, 83) ],
-[ 12.10, c6(0.49, 84) ],
-[ 13.04, c6(0.49, 83) ],
-[ 14.07, ds6(0.45, 86) ],
-[ 14.51, c6(0.47, 89) ]].quantize(4));
-
-createTrack(0).play([
+// bass line (channel 0)
+const recBass = () => bass.play([
   [ 0.00, f2(3.99, 87) ],
   [ 4.00, c3(3.99, 87) ],
-[ 8.010, ds3(3.99, 81) ],
-[ 12.00, gs2(3.99, 91) ]]);
+  [ 8.010, ds3(3.99, 81) ],
+  [ 12.00, gs2(3.99, 91) ]]);
 
-playDrums();
-startRecording();
+// chords played with the bass instrument (channel 0)
+const recChords = () => bass.play([
+  [ 0.0, c5(3.99, 97) ],
+  [ 0, gs5(3.99, 84) ],
+  [ 0, f5(3.99, 93) ],
+  [ 4, c5(3.99, 99) ],
+  [ 4, g5(3.99, 94) ],
+  [ 4, ds5(3.99, 92) ],
+  [ 8, ds5(3.99, 97) ],
+  [ 8, g5(3.99, 79) ],
+  [ 8, as4(3.99, 94) ],
+  [ 12, gs4(3.99, 88) ],
+  [ 12, c5(3.99, 94) ]]);
+
+// pad (channel 5)
+const recPad = () => pad.play([
+  [ 2.97, as6(0.57, 89) ],
+  [ 3.97, controlchange(64, 127) ],
+  [ 3.52, g6(3.59, 88) ],
+  [ 7.34, controlchange(64, 0) ],
+  [ 7.11, as6(0.54, 97) ],
+  [ 7.95, controlchange(64, 127) ],
+  [ 7.57, f6(3.43, 84) ],
+  [ 10.99, ds6(0.49, 81) ],
+  [ 11.87, controlchange(64, 0) ],
+  [ 13.48, controlchange(64, 127) ],
+  [ 11.54, c6(4.04, 74) ],
+  [ 15.93, controlchange(64, 0) ]].quantize(4));
+
+// lead (channel 1)
+const recLead = () => lead.play([
+  [ 0.05, f6(0.41, 97) ],
+  [ 1.00, f6(0.47, 98) ],
+  [ 1.98, ds6(0.43, 84) ],
+  [ 2.49, f6(0.57, 89) ],
+  [ 3.49, c6(0.49, 70) ],
+  [ 4.02, ds6(0.43, 86) ],
+  [ 4.97, ds6(0.54, 84) ],
+  [ 5.97, c6(0.54, 82) ],
+  [ 6.50, ds6(0.34, 83) ],
+  [ 7.52, c6(0.38, 68) ],
+  [ 8.05, ds6(0.45, 94) ],
+  [ 9.02, ds6(0.51, 92) ],
+  [ 10.00, c6(0.53, 84) ],
+  [ 10.51, ds6(0.42, 77) ],
+  [ 11.49, as5(0.57, 83) ],
+  [ 12.10, c6(0.49, 84) ],
+  [ 13.04, c6(0.49, 83) ],
+  [ 14.07, ds6(0.45, 86) ],
+  [ 14.51, c6(0.47, 89) ]].quantize(4));
+
+// drums (channels 2,3,4)
+const recDrums = () => {
+  kick.steps(4, kickPattern);
+  snare.steps(4, snarePattern);
+  hihat.steps(4, hihatPattern);
+};
 
 
-await waitBeats(16);
+// A) bass + chords + pad  (x2)
+recBass(); recChords(); recPad();
+await waitForBeat(80);
+recBass(); recChords(); recPad();
+await waitForBeat(96);
 
-stopRecording();
+// B) same + drums + lead  (x2)
+recBass(); recChords(); recPad(); recDrums(); recLead();
+await waitForBeat(112);
+recBass(); recChords(); recPad(); recDrums(); recLead();
+await waitForBeat(128);
+
 loopHere();
