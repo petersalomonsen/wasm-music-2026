@@ -14,6 +14,8 @@ const snare = createTrack(3, 4, 100);
 const hihat = createTrack(4, 4, 70);
 const pad = createTrack(5, 4, 100);
 
+const waitBeats = (beats) => createTrack(0).steps(1, [,].repeat(beats -1));
+
 // ---- reusable 16-beat parts (re-fired at the current global beat each sequence) ----
 
 const bassPattern = [
@@ -122,7 +124,7 @@ const playLead  = () => lead.play(leadNotes);
 const playDrums = () => { kick.steps(4, kickPattern); snare.steps(4, snarePattern); hihat.steps(4, hihatPattern); };
 const playPad   = () => pad.play(padNotes);
 
-startRecording();
+
 
 // 1) bass + lead only
 playBass(); playLead();
@@ -136,9 +138,78 @@ await waitForBeat(32);
 playBass(); playLead(); playDrums(); playPad();
 await waitForBeat(48);
 
+
+createTrack(5).play([[ 12.57, ds6(0.42, 69) ],
+[ 13.54, controlchange(64, 127) ],
+[ 12.99, f6(0.92, 90) ],
+[ 13.46, as6(0.56, 82) ],
+[ 13.98, ds7(0.58, 83) ],
+[ 14.51, d7(0.43, 74) ],
+[ 14.91, as6(0.65, 77) ],
+[ 15.87, controlchange(64, 0) ],
+[ 15.51, c7(2.07, 83) ]].quantize(4));
+
 // 4) pad again (second time)
 playBass(); playLead(); playDrums(); playPad();
 await waitForBeat(64);
+
+createTrack(5).play([[ 2.97, as6(0.57, 89) ],
+[ 3.97, controlchange(64, 127) ],
+[ 3.52, g6(3.59, 88) ],
+[ 7.34, controlchange(64, 0) ],
+[ 7.11, as6(0.54, 97) ],
+[ 7.95, controlchange(64, 127) ],
+[ 7.57, f6(3.43, 84) ],
+[ 10.99, ds6(0.49, 81) ],
+[ 11.87, controlchange(64, 0) ],
+[ 13.48, controlchange(64, 127) ],
+[ 11.54, c6(4.04, 74) ],
+[ 15.93, controlchange(64, 0) ]].quantize(4));
+
+
+createTrack(0).play([[ 0.0, c5(3.99, 97) ],
+[ 0, gs5(3.99, 84) ],
+[ 0, f5(3.99, 93) ],
+[ 4, c5(3.99, 99) ],
+[ 4, g5(3.99, 94) ],
+[ 4, ds5(3.99, 92) ],
+[ 8, ds5(3.99, 97) ],
+[ 8, g5(3.99, 79) ],
+[ 8, as4(3.99, 94) ],
+[ 12, gs4(3.99, 88) ],
+[ 12, c5(3.99, 94) ]]);
+
+createTrack(1).play([[ 0.05, f6(0.41, 97) ],
+[ 1.00, f6(0.47, 98) ],
+[ 1.98, ds6(0.43, 84) ],
+[ 2.49, f6(0.57, 89) ],
+[ 3.49, c6(0.49, 70) ],
+[ 4.02, ds6(0.43, 86) ],
+[ 4.97, ds6(0.54, 84) ],
+[ 5.97, c6(0.54, 82) ],
+[ 6.50, ds6(0.34, 83) ],
+[ 7.52, c6(0.38, 68) ],
+[ 8.05, ds6(0.45, 94) ],
+[ 9.02, ds6(0.51, 92) ],
+[ 10.00, c6(0.53, 84) ],
+[ 10.51, ds6(0.42, 77) ],
+[ 11.49, as5(0.57, 83) ],
+[ 12.10, c6(0.49, 84) ],
+[ 13.04, c6(0.49, 83) ],
+[ 14.07, ds6(0.45, 86) ],
+[ 14.51, c6(0.47, 89) ]].quantize(4));
+
+createTrack(0).play([
+  [ 0.00, f2(3.99, 87) ],
+  [ 4.00, c3(3.99, 87) ],
+[ 8.010, ds3(3.99, 81) ],
+[ 12.00, gs2(3.99, 91) ]]);
+
+playDrums();
+startRecording();
+
+
+await waitBeats(16);
 
 stopRecording();
 loopHere();

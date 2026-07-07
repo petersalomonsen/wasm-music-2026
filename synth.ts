@@ -38,7 +38,7 @@ export function initializeMidiSynth(): void {
     midichannels[2] = new ReverbSendChannel(2, (channel: MidiChannel) => new Kick(channel), 0.05);
     midichannels[3] = new ReverbSendChannel(2, (channel: MidiChannel) => new Snare(channel), 0.25);
     midichannels[4] = new ReverbSendChannel(4, (channel: MidiChannel) => new Hihat(channel), 0.15);
-    midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.40);
+    midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.60);
 }
 
 export function postprocess(): void {
