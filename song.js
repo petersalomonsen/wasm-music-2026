@@ -12,9 +12,55 @@ const lead = createTrack(1, 4, 90);
 const kick = createTrack(2, 4, 110);
 const snare = createTrack(3, 4, 100);
 const hihat = createTrack(4, 4, 70);
+const pad = createTrack(5, 4, 100);
 
-startRecording();
-createTrack(1).play([[ 0.58, f5(0.06, 42) ],
+// ---- reusable 16-beat parts (re-fired at the current global beat each sequence) ----
+
+const bassPattern = [
+  f2,,,,
+  f2(0.2),,,,
+  f2(0.2),,,,
+  f2(0.2),,,,
+  g2,,,,
+  g2(0.2),,,,
+  g2(0.2),,,,
+  g2(0.2),,,,
+  gs2,,,,
+  gs2(0.2),,,,
+  gs2(0.2),,,,
+  gs2(0.2),,,,
+  as2,,,,
+  as2(0.2),,,,
+  as2(0.2),,,,
+  as2(0.2),,,,
+];
+
+// 8-beat jungle break, played twice = one 16-beat sequence
+const kickPattern = [
+  c3,,,,
+  ,,,,
+  ,,c3,,
+  ,,,,
+  c3,,,,
+  ,c3,,,
+  ,,c3,,
+  ,,,,
+].repeat(1);
+
+const snarePattern = [
+  ,,,,
+  d3,,,,
+  ,,,,
+  d3,,,d3,
+  ,,,,
+  d3,,,d3,
+  ,,,,
+  d3,,,,
+].repeat(1);
+
+const hihatPattern = [ fs3,,fs3,, ].repeat(15); // 16 beats
+
+const leadNotes = [[ 0.58, f5(0.06, 42) ],
 [ 0.52, gs4(0.26, 63) ],
 [ 0.55, c5(0.24, 60) ],
 [ 1.56, f5(0.26, 57) ],
@@ -58,55 +104,9 @@ createTrack(1).play([[ 0.58, f5(0.06, 42) ],
 [ 13.43, c5(0.41, 60) ],
 [ 14.44, f4(0.36, 63) ],
 [ 14.45, d5(0.37, 54) ],
-[ 14.43, as4(0.39, 66) ]].quantize(4));
+[ 14.43, as4(0.39, 66) ]].quantize(4);
 
-createTrack(0).steps(4,[
-
-  f2,,,,
-  f2(0.2),,,,
-  f2(0.2),,,,
-  f2(0.2),,,,
-  g2,,,,
-  g2(0.2),,,,
-  g2(0.2),,,,
-  g2(0.2),,,,
-  gs2,,,,
-  gs2(0.2),,,,
-  gs2(0.2),,,,
-  gs2(0.2),,,,
-  as2,,,,
-  as2(0.2),,,,
-  as2(0.2),,,,
-  as2(0.2),,,,
-  
-]);
-
-// jungle drum break — same 16-beat length as the bass line, all fire-and-forget
-kick.steps(4,[
-  c3,,,,
-  ,,,,
-  ,,c3,,
-  ,,,,
-  c3,,,,
-  ,c3,,,
-  ,,c3,,
-  ,,,,
-].repeat(2));
-
-snare.steps(4,[
-  ,,,,
-  d3,,,,
-  ,,,,
-  d3,,,d3,
-  ,,,,
-  d3,,,d3,
-  ,,,,
-  d3,,,,
-].repeat(2));
-
-hihat.steps(4,[ fs3,,fs3,, ].repeat(16));
-
-createTrack(5).play([[ 2.49, ds5(0.42, 100) ],
+const padNotes = [[ 2.49, ds5(0.42, 100) ],
 [ 2.93, f5(0.69, 100) ],
 [ 3.97, as5(1.60, 100) ],
 [ 6.0, f5(1.69, 100) ],
@@ -114,9 +114,31 @@ createTrack(5).play([[ 2.49, ds5(0.42, 100) ],
 [ 10.47, f5(0.34, 100) ],
 [ 11.01, g5(0.58, 100) ],
 [ 11.97, f5(1.72, 100) ],
-[ 14.09, g5(1.14, 100) ]].quantize(4));
+[ 14.09, g5(1.14, 100) ]].quantize(4);
 
-// wait for the beat (not the bass) so bass, lead and drums all run together
+// fire-and-forget layer triggers (schedule at the current global beat)
+const playBass  = () => bass.steps(4, bassPattern);
+const playLead  = () => lead.play(leadNotes);
+const playDrums = () => { kick.steps(4, kickPattern); snare.steps(4, snarePattern); hihat.steps(4, hihatPattern); };
+const playPad   = () => pad.play(padNotes);
+
+startRecording();
+
+// 1) bass + lead only
+playBass(); playLead();
 await waitForBeat(16);
+
+// 2) same sequence + drums
+playBass(); playLead(); playDrums();
+await waitForBeat(32);
+
+// 3) + pad
+playBass(); playLead(); playDrums(); playPad();
+await waitForBeat(48);
+
+// 4) pad again (second time)
+playBass(); playLead(); playDrums(); playPad();
+await waitForBeat(64);
+
 stopRecording();
 loopHere();
