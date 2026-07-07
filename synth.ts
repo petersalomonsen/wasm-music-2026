@@ -5,6 +5,7 @@ import { Kick } from '../faust/kick';
 import { Snare } from '../faust/snare';
 import { Hihat } from '../faust/hihat';
 import { Padsynth } from '../faust/padsynth';
+import { Organ } from '../faust/organ';
 import { Jpverb, JpverbChannel } from '../faust/jpverb';
 
 // --- Shared jpverb reverb send bus -----------------------------------------
@@ -39,6 +40,7 @@ export function initializeMidiSynth(): void {
     midichannels[3] = new ReverbSendChannel(2, (channel: MidiChannel) => new Snare(channel), 0.25);
     midichannels[4] = new ReverbSendChannel(4, (channel: MidiChannel) => new Hihat(channel), 0.15);
     midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.60);
+    midichannels[6] = new ReverbSendChannel(8, (channel: MidiChannel) => new Organ(channel), 0.35);
 }
 
 export function postprocess(): void {

@@ -6,6 +6,7 @@ addInstrument('kick');   // channel 2
 addInstrument('snare');  // channel 3
 addInstrument('hihat');  // channel 4
 addInstrument('pad');    // channel 5
+addInstrument('organ');  // channel 6
 
 // tracks
 const bass  = createTrack(0, 4, 100);
@@ -14,6 +15,7 @@ const kick  = createTrack(2, 4, 110);
 const snare = createTrack(3, 4, 100);
 const hihat = createTrack(4, 4, 70);
 const pad   = createTrack(5, 4, 100);
+const organ = createTrack(6, 4, 100);
 
 // ---- drum patterns (jungle break) ----
 const kickPattern = [
@@ -109,32 +111,33 @@ const leadNotes = [[ 0.58, f5(0.06, 42) ],
 [ 14.45, d5(0.37, 54) ],
 [ 14.43, as4(0.39, 66) ]].quantize(4);
 
-const padNotes = [[ 2.49, ds5(0.42, 100) ],
-[ 2.93, f5(0.69, 100) ],
-[ 3.97, as5(1.60, 100) ],
-[ 6.0, f5(1.69, 100) ],
-[ 7.53, ds5(2.83, 100) ],
-[ 10.47, f5(0.34, 100) ],
-[ 11.01, g5(0.58, 100) ],
-[ 11.97, f5(1.72, 100) ],
-[ 14.09, g5(1.14, 100) ]].quantize(4);
+const padNotes = [[ 2.49, ds6(0.42, 100) ],
+[ 2.93, f6(0.69, 100) ],
+[ 3.97, as6(1.60, 100) ],
+[ 6.0, f6(1.69, 100) ],
+[ 7.53, ds6(2.83, 100) ],
+[ 10.47, f6(0.34, 100) ],
+[ 11.01, g6(0.58, 100) ],
+[ 11.97, f6(1.72, 100) ],
+[ 14.09, g6(1.14, 100) ]].quantize(4);
 
 const playBass  = () => bass.steps(4, bassPattern);
 const playLead  = () => lead.play(leadNotes);
 const playDrums = () => { kick.steps(4, kickPattern); snare.steps(4, snarePattern); hihat.steps(4, hihatPattern); };
 const playPad   = () => pad.play(padNotes);
+const playOrgan = () => organ.play(padNotes);
 
 // 1) bass + lead only
 playBass(); playLead();
-await waitForBeat(16);
+await waitDuration(16);
 
 // 2) same sequence + drums
 playBass(); playLead(); playDrums();
-await waitForBeat(32);
+await waitDuration(16);
 
-// 3) + pad
-playBass(); playLead(); playDrums(); playPad();
-await waitForBeat(48);
+// 3) + organ (first pad section, played on the organ)
+playBass(); playLead(); playDrums(); playOrgan();
+await waitDuration(16);
 
 createTrack(5).play([[ 12.57, ds6(0.42, 69) ],
 [ 13.54, controlchange(64, 127) ],
@@ -146,9 +149,9 @@ createTrack(5).play([[ 12.57, ds6(0.42, 69) ],
 [ 15.87, controlchange(64, 0) ],
 [ 15.51, c7(2.07, 83) ]].quantize(4));
 
-// 4) pad again (second time)
-playBass(); playLead(); playDrums(); playPad();
-await waitForBeat(64);
+// 4) organ again (second pad section)
+playBass(); playLead(); playDrums(); playOrgan();
+await waitDuration(16);
 
 // ============================================================
 //  MAIN arrangement of the recorded parts (loops)
@@ -222,14 +225,14 @@ const recDrums = () => {
 
 // A) bass + chords + pad  (x2)
 recBass(); recChords(); recPad();
-await waitForBeat(80);
+await waitDuration(16);
 recBass(); recChords(); recPad();
-await waitForBeat(96);
+await waitDuration(16);
 
 // B) same + drums + lead  (x2)
 recBass(); recChords(); recPad(); recDrums(); recLead();
-await waitForBeat(112);
+await waitDuration(16);
 recBass(); recChords(); recPad(); recDrums(); recLead();
-await waitForBeat(128);
+await waitDuration(16);
 
 loopHere();
