@@ -127,6 +127,43 @@ const playDrums = () => { kick.steps(4, kickPattern); snare.steps(4, snarePatter
 const playPad   = () => pad.play(padNotes);
 const playOrgan = () => organ.play(padNotes);
 
+// ============================================================
+//  TEASER VISUALS — slide cards over the reactive shader.
+//  Cards live in images/ (synced to OPFS via the claude-bridge;
+//  gitignored). Text cards are transparent PNGs so the waves show
+//  through; screenshots are opaque 16:9 panels. See docs/animations.md.
+// ============================================================
+// NOTE: do NOT await these. addImage registers { schedule: [] } synchronously
+// (before its internal src-resolve await), so startVideo() works immediately.
+// Awaiting here would stall the compile pump with an empty event queue while
+// the OPFS image reads settle — which busy-spins and hangs the page.
+addImage('t_title',    'images/t_title.png');
+addImage('t_describe', 'images/t_describe.png');
+addImage('s_organ',    'images/s_organ.jpg');
+addImage('s_song',     'images/s_song.jpg');
+addImage('t_composer', 'images/t_composer.png');
+addImage('t_direct',   'images/t_direct.png');
+addImage('s_github',   'images/s_github.jpg');
+addImage('s_repo',     'images/s_repo.jpg');
+addImage('t_wasm',     'images/t_wasm.png');
+addImage('t_outro',    'images/t_outro.png');
+
+// Concurrent cue track: absolute beats, NOT awaited so the music proceeds.
+// Each startVideo supersedes the previous card; the renderer crossfades ~1.5s.
+(async () => {
+  const cue = async (beat, name) => { await waitForBeat(beat); startVideo(name); };
+  await cue(0,   't_title');      // waves + title
+  await cue(14,  't_describe');   // "just describe what you want"
+  await cue(22,  's_organ');      // build the instrument in Faust
+  await cue(38,  's_song');       // fold it into the arrangement
+  await cue(52,  't_composer');   // you're still the composer
+  await cue(62,  't_direct');     // arrange it, play it in, read the code
+  await cue(72,  's_github');     // push to your own GitHub
+  await cue(88,  's_repo');       // conversation saved in the repo
+  await cue(100, 't_wasm');       // compiles to WebAssembly, runs live
+  await cue(112, 't_outro');      // open source — come make something
+})();
+
 // 1) bass + lead only
 playBass(); playLead();
 await waitDuration(16);
