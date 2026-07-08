@@ -8,6 +8,7 @@ addInstrument('hihat');  // channel 4
 addInstrument('pad');    // channel 5
 addInstrument('organ');  // channel 6
 
+
 // tracks
 const bass  = createTrack(0, 4, 100);
 const lead  = createTrack(1, 4, 90);
