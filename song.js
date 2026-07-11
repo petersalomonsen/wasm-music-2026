@@ -371,6 +371,26 @@ const takeBass = () => createTrack(0).play([[ 0.03, f2(0.81, 72) ],
 [ 13.00, as2(1.04, 88) ],
 [ 14.49, as3(0.49, 93) ]].quantize(4).fixVelocity(100));
 
+// same take but ending on g# instead of a# — used only for the last part (final repeat)
+const takeBass2 = () => createTrack(0).play([[ 0.03, f2(0.81, 72) ],
+[ 1.09, f3(0.50, 98) ],
+[ 2.39, f3(0.47, 90) ],
+[ 3.0, f2(0.50, 89) ],
+[ 3.5, f3(0.24, 87) ],
+[ 4.0, c3(0.98, 83) ],
+[ 4.94, c4(0.73, 94) ],
+[ 6.41, c4(0.56, 77) ],
+[ 6.98, c3(0.46, 93) ],
+[ 7.48, c4(0.07, 77) ],
+[ 7.97, ds2(0.99, 87) ],
+[ 8.99, ds3(0.95, 92) ],
+[ 10.49, ds3(0.51, 73) ],
+[ 11.06, ds2(0.47, 94) ],
+[ 11.48, ds3(0.27, 64) ],
+[ 11.99, gs2(0.61, 87) ],
+[ 13.00, gs2(1.04, 88) ],
+[ 14.49, gs3(0.49, 93) ]].quantize(4).fixVelocity(100));
+
 const takeOrgan = () => {
   createTrack(6).play([[0, controlchange(7,50)]]);
   createTrack(6).play([[ 1.13, f5(0.81, 68) ],
@@ -525,6 +545,19 @@ const padOrgan = () => {
     [ 7.57, f6(3.43, 84) ],
     [ 10.99, ds6(0.49, 81) ],
     [ 11.54, c6(4.04, 74) ]].quantize(4));
+  // organ also doubles the chords
+  organ.play([
+    [ 0.0, c5(3.99, 97) ],
+    [ 0, gs5(3.99, 84) ],
+    [ 0, f5(3.99, 93) ],
+    [ 4, c5(3.99, 99) ],
+    [ 4, g5(3.99, 94) ],
+    [ 4, ds5(3.99, 92) ],
+    [ 8, ds5(3.99, 97) ],
+    [ 8, g5(3.99, 79) ],
+    [ 8, as4(3.99, 94) ],
+    [ 12, gs4(3.99, 88) ],
+    [ 12, c5(3.99, 94) ]]);
 };
 
 
@@ -558,6 +591,8 @@ await waitDuration(16);
 
 // final repeat: organ also doubles the lead melody; alternate beat + ghost hits
 // (kick/hihat/snare); bass keeps the chords but the low note uses the takeBass style.
-recChords(); takeBass(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
+recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
+await waitDuration(16);
+recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 loopHere();
