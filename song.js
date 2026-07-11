@@ -496,6 +496,37 @@ const padDrumsFull = () => {
   snare.steps(4, leadSnarePattern);   // snare on every 2nd beat
 };
 
+// last pad round: double the kick density (8th notes), hihat on each kick, and a
+// snare crescendo (every 8th) rising from almost nothing up to full velocity.
+const padKickEighths = [ c3,,c3,, ].repeat(16);
+const padHatEighths  = [ fs3,,fs3,, ].repeat(16);
+const padDrumsBuild = () => {
+  kick.steps(4, padKickEighths);
+  hihat.steps(4, padHatEighths);
+  const hits = [];
+  for (let beat = 0; beat < 16; beat++) { hits.push(beat); hits.push(beat + 0.5); }
+  const s = [];
+  const n = hits.length;
+  hits.forEach((pos, i) => {
+    const vel = Math.round(4 + 116 * (i / (n - 1)));  // ~4 -> 120: gradual crescendo
+    s.push([pos, d3(0.12, vel)]);
+  });
+  createTrack(3).play(s);
+};
+
+// organ doubling the lead/pad melody (same notes, incl. the C lead-in) for the final repeat
+const padOrgan = () => {
+  organ.play([[ 0, controlchange(7, 85) ]]);
+  organ.play([
+    [ 0, c7(3.0, 78) ],
+    [ 2.97, as6(0.57, 89) ],
+    [ 3.52, g6(3.59, 88) ],
+    [ 7.11, as6(0.54, 97) ],
+    [ 7.57, f6(3.43, 84) ],
+    [ 10.99, ds6(0.49, 81) ],
+    [ 11.54, c6(4.04, 74) ]].quantize(4));
+};
+
 
 // twice — without basslead
 
@@ -521,6 +552,12 @@ await waitDuration(16);
 // ...then x2 with a fuller beat: kick + hihat on every beat, snare on every 2nd beat.
 recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsFull();
 await waitDuration(16);
-recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsFull();
+// last round: double kick density (8ths) with snare + hihat on each kick, snare roll at the end.
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsBuild(); snareRoll();
+await waitDuration(16);
+
+// final repeat: organ also doubles the lead melody; alternate beat + ghost hits
+// (kick/hihat/snare); bass keeps the chords but the low note uses the takeBass style.
+recChords(); takeBass(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 loopHere();
