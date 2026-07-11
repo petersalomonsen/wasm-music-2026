@@ -442,6 +442,53 @@ const takeLead = () => createTrack(7).play([[ 1.02, c6(0.56, 82) ],
 [ 14.07, c6(0.35, 75) ],
 [ 14.49, as5(1.49, 69) ]].quantize(4));
 
+// second basslead pass: the last 3 notes rise (g6, a#6, c7) instead of falling
+const takeLead2 = () => createTrack(7).play([[ 1.02, c6(0.56, 82) ],
+[ 1.55, ds6(1.11, 91) ],
+[ 2.59, f6(1.38, 90) ],
+[ 5.00, c6(0.54, 84) ],
+[ 5.48, ds6(1.12, 82) ],
+[ 6.52, f6(1.68, 83) ],
+[ 9.01, c6(0.43, 77) ],
+[ 9.47, ds6(1.10, 84) ],
+[ 10.50, f6(0.53, 75) ],
+[ 11.01, g6(0.98, 82) ],
+[ 12.01, f6(0.88, 79) ],
+[ 13.10, g6(0.70, 92) ],
+[ 14.07, as6(0.35, 75) ],
+[ 14.49, c7(1.49, 69) ]].quantize(4));
+
+// basslead doubling the padsynth melody (same notes as recPad, no sustain CCs)
+const takePadLead = () => createTrack(7).play([
+  [ 2.97, as6(0.57, 89) ],
+  [ 3.52, g6(3.59, 88) ],
+  [ 7.11, as6(0.54, 97) ],
+  [ 7.57, f6(3.43, 84) ],
+  [ 10.99, ds6(0.49, 81) ],
+  [ 11.54, c6(4.04, 74) ]].quantize(4));
+
+// steady 8th-note kick for the appended pad part:
+// full kick on every 8th, but the LAST 8th of each bar is a ghost;
+// the final bar adds an extra kick on the 4th beat (its last 16th).
+const padKick = () => {
+  const k = [];
+  for (let b = 0; b < 16; b += 4) {   // 4 bars — a kick every 2 beats (half the usual density)
+    k.push([b,     c3(0.14, 110)]);   // beat 1 (full)
+    k.push([b + 2, c3(0.14, 28)]);    // beat 3 (ghost = last kick of the bar)
+  }
+  k.push([15, c3(0.14, 110)]);        // final bar: extra kick on the 4th beat
+  createTrack(2).play(k);
+};
+
+// fuller beat for the last two pad repeats:
+// kick + hihat on every beat, snare on every second beat.
+const padHatEveryBeat = [ fs3,,,, ].repeat(16);   // hat on every beat
+const padDrumsFull = () => {
+  kick.steps(4, altKickPattern);      // kick on every beat
+  hihat.steps(4, padHatEveryBeat);    // hihat on every beat
+  snare.steps(4, leadSnarePattern);   // snare on every 2nd beat
+};
+
 
 // twice — without basslead
 
@@ -454,6 +501,19 @@ await waitDuration(16);
 // twice — with basslead (snare on every 2nd kick); fill closes the 2nd
 takeBass(); takeOrgan(); takeLead(); leadDrums(); altGhosts(true);
 await waitDuration(16);
-takeBass(); takeOrgan(); takeLead(); leadDrums(); altGhosts(true); snareFill();
+takeBass(); takeOrgan(); takeLead2(); leadDrums(); altGhosts(true); snareFill();
+await waitDuration(16);
+
+// appended padsynth part (bass + chords + pad) — basslead doubles the pad melody.
+// x2 with the sparse half-note kick...
+recBass(); recChords(); recPad(); takePadLead(); padKick();
+await waitDuration(16);
+recBass(); recChords(); recPad(); takePadLead(); padKick();
+await waitDuration(16);
+
+// ...then x2 with a fuller beat: kick + hihat on every beat, snare on every 2nd beat.
+recBass(); recChords(); recPad(); takePadLead(); padDrumsFull();
+await waitDuration(16);
+recBass(); recChords(); recPad(); takePadLead(); padDrumsFull();
 await waitDuration(16);
 loopHere();
