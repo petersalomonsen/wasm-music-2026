@@ -263,6 +263,76 @@ const recDrums = () => {
   hihat.steps(4, hihatPattern);
 };
 
+// alternative beat for the passes without the basslead:
+// four-on-the-floor kick, backbeat snare, offbeat hats.
+const altKickPattern  = [ c3,,,, ].repeat(16);     // kick on every beat
+const altSnarePattern = [ ,,,,d3,,,, ].repeat(8);  // snare backbeat (beats 2 & 4)
+const altHatPattern   = [ ,,fs3,, ].repeat(16);    // hats on the off-beat
+const altDrums = () => {
+  kick.steps(4, altKickPattern);
+  hihat.steps(4, altHatPattern);   // no snare on the no-basslead passes
+};
+
+// basslead-section drums: same four-on-the-floor kick + offbeat hats,
+// but with the snare on every second kick (backbeat).
+const leadSnarePattern = [ ,,,,d3,,,, ].repeat(8);  // snare on every 2nd kick
+const leadDrums = () => {
+  kick.steps(4, altKickPattern);
+  snare.steps(4, leadSnarePattern);
+  hihat.steps(4, altHatPattern);
+};
+
+// Occasional ghost notes at ~1/4 velocity, placed just BEFORE a main hit as a
+// pick-up. Spread out (not every beat) and staggered so the kick / hihat / bass
+// ghosts never land at the same moment.
+const altGhosts = (withSnare) => {
+  // Per 4-beat bar (kicks on beats 1-4 = offsets 0-3):
+  //   kick ghost  = pick-up just BEFORE the 3rd kick
+  //   snare ghost = just AFTER  the 3rd kick
+  //   hihat ghost = just AFTER  the 2nd and 4th kick
+  // all at ~1/4 velocity, staggered so none coincide.
+  const kickG = [], snareG = [], hatG = [];
+  for (let b = 0; b < 16; b += 4) {
+    kickG.push([b + 1.75, c3(0.10, 28)]);   // before 3rd kick (.75) (110/4)
+    snareG.push([b + 2.25, d3(0.10, 45)]);  // after  3rd kick (.25) (100/4)
+    hatG.push([b + 1.25, fs3(0.10, 18)]);   // after  2nd kick (.25) (70/4)
+    hatG.push([b + 3.25, fs3(0.10, 18)]);   // after  4th kick (.25)
+  }
+  createTrack(2).play(kickG);
+  if (withSnare) createTrack(3).play(snareG);  // snare ghost only with the main snare
+  createTrack(4).play(hatG);
+};
+
+// snare drumroll over the last 2 beats — builds up into the basslead drop
+const snareRoll = () => createTrack(3).play([
+  [14.00, d3(0.24, 35)],
+  [14.25, d3(0.24, 42)],
+  [14.50, d3(0.24, 50)],
+  [14.75, d3(0.24, 68)],
+  [15.00, d3(0.12, 78)],
+  [15.125, d3(0.12, 86)],
+  [15.25, d3(0.12, 94)],
+  [15.375, d3(0.12, 102)],
+  [15.50, d3(0.12, 90)],
+  [15.625, d3(0.12, 116)],
+  [15.75, d3(0.12, 100)],
+  [15.875, d3(0.12, 127)],
+    [16.00, d3(1.00, 127)],
+
+]);
+
+// snare fill over the last 2 beats — closes the two basslead passes
+const snareFill = () => createTrack(3).play([
+  [13.75, d3(0.24, 40)],
+  [14.00, d3(0.24, 105)],
+  [14.50, d3(0.24, 80)],
+  [14.75, d3(0.24, 108)],
+  [15.00, d3(0.12, 112)],
+  [15.25, d3(0.12, 100)],
+  [15.50, d3(0.12, 118)],
+  [15.75, d3(0.12, 90)]
+  ]);
+
 
 // A) bass + chords + pad  (x2)
 recBass(); recChords(); recPad();
@@ -373,11 +443,17 @@ const takeLead = () => createTrack(7).play([[ 1.02, c6(0.56, 82) ],
 [ 14.49, as5(1.49, 69) ]].quantize(4));
 
 
-// 1st time — without basslead
-takeBass(); takeOrgan(); recDrums();
+// twice — without basslead
+
+ 
+takeBass(); takeOrgan(); altDrums(); altGhosts(false);
+await waitDuration(16);
+takeBass(); takeOrgan(); altDrums(); altGhosts(false); snareRoll();
 await waitDuration(16);
 
-// 2nd time — with basslead
-takeBass(); takeOrgan(); takeLead(); recDrums();
+// twice — with basslead (snare on every 2nd kick); fill closes the 2nd
+takeBass(); takeOrgan(); takeLead(); leadDrums(); altGhosts(true);
+await waitDuration(16);
+takeBass(); takeOrgan(); takeLead(); leadDrums(); altGhosts(true); snareFill();
 await waitDuration(16);
 loopHere();

@@ -25,4 +25,4 @@ pad = toneAt(0.9940) * 0.7
 
 env = en.adsr(0.001, 2.5, 0.0, 0.2, gate);
 
-process = pad * 0.12 * gain * env;
+process = pad * 0.15 * gain * env;

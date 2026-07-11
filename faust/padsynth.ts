@@ -160,7 +160,7 @@ export class Padsynth extends MidiVoice {
     }
 
     nextframe(): void {
-        const fSlow0: f32 = (0.11999999731779099 * <f32>(this.fHslider1));
+        const fSlow0: f32 = (0.15000000596046448 * <f32>(this.fHslider1));
         const fSlow1: f32 = <f32>(this.fHslider0);
         const fSlow2: f32 = (this.fConst1 * fSlow1);
         const fSlow3: f32 = (this.fConst2 * fSlow1);
