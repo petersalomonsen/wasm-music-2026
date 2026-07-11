@@ -25,4 +25,4 @@ saws = (os.sawtooth(freq * 0.991)
 // cutoff tracks pitch (same bass voicing, bright enough for a lead)
 cutoff = min(16000, freq * 3 + 300 + env * 1500);
 
-process = 1.7 * fi.lowpass(3, cutoff, (sub + suboct + saws * 0.9) * 0.6) * env * gain;
+process = 1.8 * fi.lowpass(3, cutoff, (sub + suboct + saws * 0.9) * 0.6) * env * gain;

@@ -467,6 +467,13 @@ const takePadLead = () => createTrack(7).play([
   [ 10.99, ds6(0.49, 81) ],
   [ 11.54, c6(4.04, 74) ]].quantize(4));
 
+// the C pick-up that leads into the opening A# (missing on the repeats) —
+// on both the padsynth (ch5) and the basslead (ch7).
+const padLeadInC = () => {
+  pad.play([[ 0, c7(3.0, 78) ]]);
+  createTrack(7).play([[ 0, c7(3.0, 78) ]]);
+};
+
 // steady 8th-note kick for the appended pad part:
 // full kick on every 8th, but the LAST 8th of each bar is a ghost;
 // the final bar adds an extra kick on the 4th beat (its last 16th).
@@ -506,14 +513,14 @@ await waitDuration(16);
 
 // appended padsynth part (bass + chords + pad) — basslead doubles the pad melody.
 // x2 with the sparse half-note kick...
-recBass(); recChords(); recPad(); takePadLead(); padKick();
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padKick();
 await waitDuration(16);
-recBass(); recChords(); recPad(); takePadLead(); padKick();
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padKick();
 await waitDuration(16);
 
 // ...then x2 with a fuller beat: kick + hihat on every beat, snare on every 2nd beat.
-recBass(); recChords(); recPad(); takePadLead(); padDrumsFull();
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsFull();
 await waitDuration(16);
-recBass(); recChords(); recPad(); takePadLead(); padDrumsFull();
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsFull();
 await waitDuration(16);
 loopHere();
