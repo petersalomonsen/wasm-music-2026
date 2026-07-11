@@ -7,6 +7,7 @@ addInstrument('snare');  // channel 3
 addInstrument('hihat');  // channel 4
 addInstrument('pad');    // channel 5
 addInstrument('organ');  // channel 6
+addInstrument('basslead'); // channel 7
 
 
 // tracks
@@ -173,6 +174,8 @@ await waitDuration(16);
 playBass(); playLead(); playDrums();
 await waitDuration(16);
 
+createTrack(6).play([[0, controlchange(7,65)]]);
+
 // 3) + organ (first pad section, played on the organ)
 playBass(); playLead(); playDrums(); playOrgan();
 await waitDuration(16);
@@ -267,10 +270,114 @@ await waitDuration(16);
 recBass(); recChords(); recPad();
 await waitDuration(16);
 
+
+
 // B) same + drums + lead  (x2)
 recBass(); recChords(); recPad(); recDrums(); recLead();
 await waitDuration(16);
+
+
 recBass(); recChords(); recPad(); recDrums(); recLead();
 await waitDuration(16);
 
+                 
+// ---- final section, made repeatable (1st pass without basslead, 2nd with) ----
+const takeBass = () => createTrack(0).play([[ 0.03, f2(0.81, 72) ],
+[ 1.09, f3(0.50, 98) ],
+[ 2.39, f3(0.47, 90) ],
+[ 3.0, f2(0.50, 89) ],
+[ 3.5, f3(0.24, 87) ],
+[ 4.0, c3(0.98, 83) ],
+[ 4.94, c4(0.73, 94) ],
+[ 6.41, c4(0.56, 77) ],
+[ 6.98, c3(0.46, 93) ],
+[ 7.48, c4(0.07, 77) ],
+[ 7.97, ds2(0.99, 87) ],
+[ 8.99, ds3(0.95, 92) ],
+[ 10.49, ds3(0.51, 73) ],
+[ 11.06, ds2(0.47, 94) ],
+[ 11.48, ds3(0.27, 64) ],
+[ 11.99, as2(0.61, 87) ],
+[ 13.00, as2(1.04, 88) ],
+[ 14.49, as3(0.49, 93) ]].quantize(4).fixVelocity(100));
+
+const takeOrgan = () => {
+  createTrack(6).play([[0, controlchange(7,50)]]);
+  createTrack(6).play([[ 1.13, f5(0.81, 68) ],
+[ 1.09, f7(0.85, 78) ],
+[ 1.06, gs6(0.88, 88) ],
+[ 1.10, c6(0.84, 67) ],
+[ 1.10, gs5(0.85, 61) ],
+[ 1.08, c7(0.88, 90) ],
+[ 2.59, f5(0.60, 65) ],
+[ 2.53, gs5(0.72, 69) ],
+[ 2.59, c6(0.81, 67) ],
+[ 2.55, gs6(0.89, 88) ],
+[ 2.57, f7(0.92, 83) ],
+[ 2.54, c7(0.95, 94) ],
+[ 3.99, c5(1.03, 54) ],
+[ 3.99, g6(1.06, 88) ],
+[ 3.96, c7(1.10, 99) ],
+[ 4.00, g5(1.07, 62) ],
+[ 4.02, c6(1.06, 38) ],
+[ 3.99, ds7(1.10, 84) ],
+[ 5.59, c5(2.02, 59) ],
+[ 5.55, c6(2.22, 62) ],
+[ 5.55, g5(2.28, 67) ],
+[ 5.52, c7(2.45, 94) ],
+[ 5.55, g6(2.44, 84) ],
+[ 5.52, ds7(2.48, 83) ],
+[ 8.97, ds5(1.04, 48) ],
+[ 9.03, g5(1.02, 69) ],
+[ 9.00, as5(1.04, 52) ],
+[ 9.00, g6(1.06, 89) ],
+[ 8.97, ds7(1.10, 86) ],
+[ 8.96, as6(1.14, 88) ],
+[ 10.52, g5(0.69, 72) ],
+[ 10.50, ds5(0.70, 54) ],
+[ 10.52, g6(0.85, 87) ],
+[ 10.50, as5(0.88, 68) ],
+[ 10.50, ds7(0.88, 88) ],
+[ 10.48, as6(0.98, 87) ],
+[ 11.89, f6(0.65, 88) ],
+[ 11.91, as4(0.62, 71) ],
+[ 11.87, as6(0.68, 88) ],
+[ 11.91, as5(0.66, 73) ],
+[ 11.86, ds7(0.73, 82) ],
+[ 12.93, as4(0.58, 73) ],
+[ 12.87, as5(0.64, 77) ],
+[ 12.93, f6(0.60, 79) ],
+[ 12.90, d7(0.65, 87) ],
+[ 12.86, as6(0.73, 66) ],
+[ 13.99, c7(0.50, 90) ],
+[ 13.97, as4(1.69, 77) ],
+[ 13.96, as5(1.71, 83) ],
+[ 14.00, f6(1.68, 87) ],
+[ 14.00, as6(1.71, 83) ],
+[ 14.43, d7(1.27, 83) ]].quantize(4));
+};
+
+const takeLead = () => createTrack(7).play([[ 1.02, c6(0.56, 82) ],
+[ 1.55, ds6(1.11, 91) ],
+[ 2.59, f6(1.38, 90) ],
+[ 5.00, c6(0.54, 84) ],
+[ 5.48, ds6(1.12, 82) ],
+[ 6.52, f6(1.68, 83) ],
+[ 9.01, c6(0.43, 77) ],
+[ 9.47, ds6(1.10, 84) ],
+[ 10.50, f6(0.53, 75) ],
+[ 11.01, g6(0.98, 82) ],
+[ 12.01, f6(0.88, 79) ],
+[ 13.10, d6(0.70, 92) ],
+[ 14.07, c6(0.35, 75) ],
+[ 14.49, as5(1.49, 69) ]].quantize(4));
+
+
+// 1st time — without basslead
+takeBass(); takeOrgan(); recDrums();
+await waitDuration(16);
+
+// 2nd time — with basslead
+takeBass(); takeOrgan(); takeLead(); recDrums();
+await waitDuration(16);
 loopHere();

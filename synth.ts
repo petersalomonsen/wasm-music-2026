@@ -6,6 +6,7 @@ import { Snare } from '../faust/snare';
 import { Hihat } from '../faust/hihat';
 import { Padsynth } from '../faust/padsynth';
 import { Organ } from '../faust/organ';
+import { Basslead } from '../faust/basslead';
 import { Jpverb, JpverbChannel } from '../faust/jpverb';
 
 // --- Shared jpverb reverb send bus -----------------------------------------
@@ -26,8 +27,10 @@ class ReverbSendChannel extends MidiChannel {
         this.reverb = 0; // disable the built-in freeverb send; jpverb is our reverb
     }
     preprocess(): void {
-        reverbSend.left  += this.signal.left  * this.send;
-        reverbSend.right += this.signal.right * this.send;
+        // Respect the channel volume (CC7) for the reverb send, matching how
+        // volume is applied to the dry signal in the core mixer.
+        reverbSend.left  += this.signal.left  * this.send * this.volume;
+        reverbSend.right += this.signal.right * this.send * this.volume;
     }
 }
 
@@ -41,7 +44,8 @@ export function initializeMidiSynth(): void {
     midichannels[4] = new ReverbSendChannel(4, (channel: MidiChannel) => new Hihat(channel), 0.15);
     midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.60);
     midichannels[6] = new ReverbSendChannel(8, (channel: MidiChannel) => new Organ(channel), 0.35);
-  	midichannels[6].controlchange(7,50);
+  	midichannels[6].controlchange(91,80);
+    midichannels[7] = new ReverbSendChannel(8, (channel: MidiChannel) => new Basslead(channel), 0.25);
 }
 
 export function postprocess(): void {
