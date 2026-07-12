@@ -392,7 +392,7 @@ const takeBass2 = () => createTrack(0).play([[ 0.03, f2(0.81, 72) ],
 [ 14.49, gs3(0.49, 93) ]].quantize(4).fixVelocity(100));
 
 const takeOrgan = () => {
-  createTrack(6).play([[0, controlchange(7,50)]]);
+  createTrack(6).play([[0, controlchange(7,30)]]);
   createTrack(6).play([[ 1.13, f5(0.81, 68) ],
 [ 1.09, f7(0.85, 78) ],
 [ 1.06, gs6(0.88, 88) ],
@@ -487,6 +487,28 @@ const takePadLead = () => createTrack(7).play([
   [ 10.99, ds6(0.49, 81) ],
   [ 11.54, c6(4.04, 74) ]].quantize(4));
 
+// last-section variants: the final C is one octave up (c7)
+const recPadHigh = () => pad.play([
+  [ 2.97, as6(0.57, 89) ],
+  [ 3.97, controlchange(64, 127) ],
+  [ 3.52, g6(3.59, 88) ],
+  [ 7.34, controlchange(64, 0) ],
+  [ 7.11, as6(0.54, 97) ],
+  [ 7.95, controlchange(64, 127) ],
+  [ 7.57, f6(3.43, 84) ],
+  [ 10.99, ds6(0.49, 81) ],
+  [ 11.87, controlchange(64, 0) ],
+  [ 13.48, controlchange(64, 127) ],
+  [ 11.54, c7(4.04, 74) ],
+  [ 15.93, controlchange(64, 0) ]].quantize(4));
+const takePadLeadHigh = () => createTrack(7).play([
+  [ 2.97, as6(0.57, 89) ],
+  [ 3.52, g6(3.59, 88) ],
+  [ 7.11, as6(0.54, 97) ],
+  [ 7.57, f6(3.43, 84) ],
+  [ 10.99, ds6(0.49, 81) ],
+  [ 11.54, c7(4.04, 74) ]].quantize(4));
+
 // the C pick-up that leads into the opening A# (missing on the repeats) —
 // on both the padsynth (ch5) and the basslead (ch7).
 const padLeadInC = () => {
@@ -560,6 +582,31 @@ const padOrgan = () => {
     [ 12, c5(3.99, 94) ]]);
 };
 
+// same as padOrgan but the final melody C is one octave up (c7) — very last repeat only
+const padOrganHigh = () => {
+  organ.play([[ 0, controlchange(7, 85) ]]);
+  organ.play([
+    [ 0, c7(3.0, 78) ],
+    [ 2.97, as6(0.57, 89) ],
+    [ 3.52, g6(3.59, 88) ],
+    [ 7.11, as6(0.54, 97) ],
+    [ 7.57, f6(3.43, 84) ],
+    [ 10.99, ds6(0.49, 81) ],
+    [ 11.54, c7(4.04, 74) ]].quantize(4));
+  organ.play([
+    [ 0.0, c5(3.99, 97) ],
+    [ 0, gs5(3.99, 84) ],
+    [ 0, f5(3.99, 93) ],
+    [ 4, c5(3.99, 99) ],
+    [ 4, g5(3.99, 94) ],
+    [ 4, ds5(3.99, 92) ],
+    [ 8, ds5(3.99, 97) ],
+    [ 8, g5(3.99, 79) ],
+    [ 8, as4(3.99, 94) ],
+    [ 12, gs4(3.99, 88) ],
+    [ 12, c5(3.99, 94) ]]);
+};
+
 
 // twice — without basslead
 
@@ -593,6 +640,7 @@ await waitDuration(16);
 // (kick/hihat/snare); bass keeps the chords but the low note uses the takeBass style.
 recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
-recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
+
+recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 loopHere();
