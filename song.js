@@ -643,4 +643,34 @@ await waitDuration(16);
 
 recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
+
+// ============================================================
+//  WRAP-UP: back to the intro (bass + melody) with matching organ chords and
+//  the end drum beat; x2, then out on just a kick and a hihat.
+// ============================================================
+// organ chords matching the intro progression (bass roots f, g, g#, a#)
+const wrapOrganChords = () => {
+  organ.play([[ 0, controlchange(7, 70) ]]);
+  organ.play([
+    [ 0,  f5(3.99, 80) ], [ 0,  gs5(3.99, 74) ], [ 0,  c6(3.99, 78) ],   // Fm
+    [ 4,  g5(3.99, 80) ], [ 4,  as5(3.99, 74) ], [ 4,  ds6(3.99, 78) ],  // D#/Eb major, G in bass
+    [ 8,  gs5(3.99, 80) ], [ 8, c6(3.99, 74) ],  [ 8,  ds6(3.99, 78) ],  // Ab
+    [ 12, as5(3.99, 80) ], [ 12, d6(3.99, 74) ], [ 12, f6(3.99, 78) ]]); // Bb
+};
+// double the intro melody with the basslead (ch7)
+const wrapBassLead = () => createTrack(7).play(padNotes);
+// outro: a single kick + hihat hit (not a rhythm)
+const outroKickHat = () => {
+  kick.play([[ 0, c3(1.0, 110) ]]);
+  hihat.play([[ 0, fs3(1.0, 70) ]]);
+};
+
+playBass(); playLead(); wrapBassLead(); wrapOrganChords(); leadDrums(); altGhosts(true);
+await waitDuration(16);
+playBass(); playLead(); wrapBassLead(); wrapOrganChords(); leadDrums(); altGhosts(true);
+await waitDuration(16);
+
+// ends with just a kick and a hihat
+outroKickHat();
+await waitDuration(4);
 loopHere();
