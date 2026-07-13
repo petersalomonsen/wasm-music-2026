@@ -668,15 +668,31 @@ const wrapBassPattern = [
   as2,as2,as3,as2,,as2,as3,,
 ];
 const wrapBass = () => bass.steps(2, wrapBassPattern);
+// organ plays the intro melody (instead of the basslead)
+const wrapOrgan = () => {
+  organ.play([[ 0, controlchange(7, 75) ]]);
+  organ.play(padNotes);
+};
+// the padsynth ending flourish (7 notes) from the intro — played at the end of each round
+const padEnding = () => pad.play([
+  [ 12.57, ds6(0.42, 69) ],
+  [ 13.54, controlchange(64, 127) ],
+  [ 12.99, f6(0.92, 90) ],
+  [ 13.46, as6(0.56, 82) ],
+  [ 13.98, ds7(0.58, 83) ],
+  [ 14.51, d7(0.43, 74) ],
+  [ 14.91, as6(0.65, 77) ],
+  [ 15.87, controlchange(64, 0) ],
+  [ 15.51, c7(2.07, 83) ]].quantize(4));
 // outro: a single kick + hihat hit (not a rhythm)
 const outroKickHat = () => {
   kick.play([[ 0, c3(1.0, 110) ]]);
   hihat.play([[ 0, fs3(1.0, 70) ]]);
 };
 
-wrapBass(); playLead(); wrapBassLead(); leadDrums(); altGhosts(true);
+wrapBass(); playLead(); wrapOrgan(); padEnding(); leadDrums(); altGhosts(true);
 await waitDuration(16);
-wrapBass(); playLead(); wrapBassLead();  leadDrums(); altGhosts(true);
+wrapBass(); playLead(); wrapOrgan(); padEnding();  leadDrums(); altGhosts(true);
 await waitDuration(16);
 
 // ends with just a kick and a hihat
