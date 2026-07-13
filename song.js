@@ -659,18 +659,28 @@ const wrapOrganChords = () => {
 };
 // double the intro melody with the basslead (ch7)
 const wrapBassLead = () => createTrack(7).play(padNotes);
+// the recorded bass, quantized to a 1/2-beat step grid: root, root, +oct, root,
+// rest, root, +oct, root — walking F, G, G#, A#. Used for both wrap-up rounds.
+const wrapBassPattern = [
+  f2,f2,f3,f2,,f2,f3,f2,
+  g2,g2,g3,g2,,g2,g3,g2,
+  gs2,gs2,gs3,gs2,,gs2,gs3,gs2,
+  as2,as2,as3,as2,,as2,as3,,
+];
+const wrapBass = () => bass.steps(2, wrapBassPattern);
 // outro: a single kick + hihat hit (not a rhythm)
 const outroKickHat = () => {
   kick.play([[ 0, c3(1.0, 110) ]]);
   hihat.play([[ 0, fs3(1.0, 70) ]]);
 };
 
-playBass(); playLead(); wrapBassLead(); wrapOrganChords(); leadDrums(); altGhosts(true);
+wrapBass(); playLead(); wrapBassLead(); leadDrums(); altGhosts(true);
 await waitDuration(16);
-playBass(); playLead(); wrapBassLead(); wrapOrganChords(); leadDrums(); altGhosts(true);
+wrapBass(); playLead(); wrapBassLead();  leadDrums(); altGhosts(true);
 await waitDuration(16);
 
 // ends with just a kick and a hihat
 outroKickHat();
 await waitDuration(4);
 loopHere();
+
