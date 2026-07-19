@@ -556,9 +556,19 @@ const padDrumsBuild = () => {
   createTrack(3).play(s);
 };
 
+// per-beat filter sweep for the organ chord-doubling: full open on the beat, half between
+const organFilterBeat = () => {
+  const f = [];
+  for (let b = 0; b < 16; b++) {
+    f.push([b, controlchange(0, 127)]);       // full open on the beat
+    f.push([b + 0.5, controlchange(0, 10)]);  // half open between
+  }
+  createTrack(6).play(f);
+};
+
 // organ doubling the lead/pad melody (same notes, incl. the C lead-in) for the final repeat
 const padOrgan = () => {
-  organ.play([[ 0, controlchange(7, 85) ]]);
+  organ.play([[ 0, controlchange(7, 60) ]]);
   organ.play([
     [ 0, c7(3.0, 78) ],
     [ 2.97, as6(0.57, 89) ],
@@ -638,10 +648,10 @@ await waitDuration(16);
 
 // final repeat: organ also doubles the lead melody; alternate beat + ghost hits
 // (kick/hihat/snare); bass keeps the chords but the low note uses the takeBass style.
-recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); padLeadInC(); leadDrums(); altGhosts(true);
+recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); organFilterBeat(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 
-recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); padLeadInC(); leadDrums(); altGhosts(true);
+recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); organFilterBeat(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 
 // ============================================================
@@ -670,7 +680,7 @@ const wrapBassPattern = [
 const wrapBass = () => bass.steps(2, wrapBassPattern);
 // organ plays the intro melody (instead of the basslead)
 const wrapOrgan = () => {
-  organ.play([[ 0, controlchange(7, 75) ]]);
+  organ.play([[ 0, controlchange(7, 75) ], [ 0, controlchange(0, 127) ]]);  // reset cutoff open
   organ.play(padNotes);
 };
 // the padsynth ending flourish (7 notes) from the intro — played at the end of each round

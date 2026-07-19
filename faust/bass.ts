@@ -11,22 +11,22 @@ export class Bass extends MidiVoice {
     private iVec3: StaticArray<i32> = new StaticArray<i32>(2);
     private fHslider2: f32 = 0.5;
     private fConst0: f32;
+    private fHslider0: f32 = 110.0;
+    private fButton1: f32 = 0.0;
     private fConst1: f32;
     private fConst2: f32;
-    private fRec815: f32;
-    private fButton1: f32 = 0.0;
     private fConst3: f32;
     private fConst4: f32;
-    private iRec825: i32;
-    private fRec919: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec841: f32;
     private fConst5: f32;
-    private fHslider0: f32 = 110.0;
+    private fConst6: f32;
     private fRec858: StaticArray<f32> = new StaticArray<f32>(2);
     private fRec858_1: StaticArray<f32> = new StaticArray<f32>(2);
     private fRec871: StaticArray<f32> = new StaticArray<f32>(2);
     private fRec871_1: StaticArray<f32> = new StaticArray<f32>(2);
-    private fConst6: f32;
+    private fRec815: f32;
+    private iRec825: i32;
+    private fRec841: f32;
+    private fRec919: StaticArray<f32> = new StaticArray<f32>(3);
     private silentSamples: i32 = 0;
     private releaseSamples: i32 = 0;
 
@@ -38,25 +38,25 @@ export class Bass extends MidiVoice {
 
     private instanceConstants(): void {
         this.fConst0 = min<f32>(192000.0, max<f32>(1.0, SAMPLERATE));
-        this.fConst1 = max<f32>(1.0, (this.fConst0 * 0.00800000037997961));
-        this.fConst2 = (1.0 / this.fConst1);
-        this.fConst3 = (0.15000000596046448 / max<f32>(1.0, (this.fConst0 * 0.11999999731779099)));
-        this.fConst4 = (1.0 / max<f32>(1.0, (this.fConst0 * 0.18000000715255737)));
-        this.fConst5 = (1.0 / this.fConst0);
-        this.fConst6 = (3.1415927410125732 / this.fConst0);
+        this.fConst1 = (1.0 / this.fConst0);
+        this.fConst2 = max<f32>(1.0, (this.fConst0 * 0.00800000037997961));
+        this.fConst3 = (1.0 / this.fConst2);
+        this.fConst4 = (0.15000000596046448 / max<f32>(1.0, (this.fConst0 * 0.11999999731779099)));
+        this.fConst5 = (3.1415927410125732 / this.fConst0);
+        this.fConst6 = (1.0 / max<f32>(1.0, (this.fConst0 * 0.18000000715255737)));
     }
 
     private instanceClear(): void {
         for (let lDelay0: i32 = 0; lDelay0 < <i32>(2); lDelay0 = lDelay0 + 1) { this.fVec101[lDelay0] = 0.0; }
         for (let lDelay1: i32 = 0; lDelay1 < <i32>(2); lDelay1 = lDelay1 + 1) { this.iVec3[lDelay1] = <i32>(0); }
+        for (let lRec2: i32 = 0; lRec2 < <i32>(2); lRec2 = lRec2 + 1) { this.fRec858[lRec2] = 0.0; }
+        for (let lRec3: i32 = 0; lRec3 < <i32>(2); lRec3 = lRec3 + 1) { this.fRec858_1[lRec3] = 0.0; }
+        for (let lRec4: i32 = 0; lRec4 < <i32>(2); lRec4 = lRec4 + 1) { this.fRec871[lRec4] = 0.0; }
+        for (let lRec5: i32 = 0; lRec5 < <i32>(2); lRec5 = lRec5 + 1) { this.fRec871_1[lRec5] = 0.0; }
         this.fRec815 = 0.0;
         this.iRec825 = <i32>(0);
-        for (let lRec2: i32 = 0; lRec2 < <i32>(3); lRec2 = lRec2 + 1) { this.fRec919[lRec2] = 0.0; }
         this.fRec841 = 0.0;
-        for (let lRec3: i32 = 0; lRec3 < <i32>(2); lRec3 = lRec3 + 1) { this.fRec858[lRec3] = 0.0; }
-        for (let lRec4: i32 = 0; lRec4 < <i32>(2); lRec4 = lRec4 + 1) { this.fRec858_1[lRec4] = 0.0; }
-        for (let lRec7: i32 = 0; lRec7 < <i32>(2); lRec7 = lRec7 + 1) { this.fRec871[lRec7] = 0.0; }
-        for (let lRec8: i32 = 0; lRec8 < <i32>(2); lRec8 = lRec8 + 1) { this.fRec871_1[lRec8] = 0.0; }
+        for (let lRec10: i32 = 0; lRec10 < <i32>(3); lRec10 = lRec10 + 1) { this.fRec919[lRec10] = 0.0; }
     }
 
     noteon(note: u8, velocity: u8): void {
@@ -82,43 +82,47 @@ export class Bass extends MidiVoice {
 
     nextframe(): void {
         const fSlow0: f32 = <f32>(this.fHslider2);
-        const fSlow1: f32 = <f32>(this.fButton1);
-        const iSlow0: i32 = (fSlow1 == 0.0);
-        const fSlow2: f32 = <f32>(this.fHslider0);
-        const fSlow3: f32 = (this.fConst5 * fSlow2);
-        const fSlow4: f32 = max<f32>(0.00000011920928955078125, Mathf.abs(fSlow2));
-        const fSlow5: f32 = (this.fConst5 * fSlow4);
-        const fSlow6: f32 = (1.0 - (this.fConst0 / fSlow4));
-        const fSlow7: f32 = max<f32>(0.00000011920928955078125, Mathf.abs((1.003000020980835 * fSlow2)));
-        const fSlow8: f32 = (this.fConst5 * fSlow7);
+        const fSlow1: f32 = <f32>(this.fHslider0);
+        const fSlow2: f32 = max<f32>(0.00000011920928955078125, Mathf.abs(fSlow1));
+        const fSlow3: f32 = (1.0 - (this.fConst0 / fSlow2));
+        const fSlow4: f32 = <f32>(this.fButton1);
+        const iSlow0: i32 = (fSlow4 == 0.0);
+        const fSlow5: f32 = (this.fConst1 * fSlow1);
+        const fSlow6: f32 = (this.fConst1 * fSlow2);
+        const fSlow7: f32 = max<f32>(0.00000011920928955078125, Mathf.abs((1.003000020980835 * fSlow1)));
+        const fSlow8: f32 = (this.fConst1 * fSlow7);
         const fSlow9: f32 = (1.0 - (this.fConst0 / fSlow7));
 
-        this.fVec101[<i32>(0)] = fSlow1;
-        let fRecCur815: f32 = (fSlow1 + (this.fRec815 * <f32>((this.fVec101[<i32>(1)] >= fSlow1))));
-        let iRecCur825: i32 = (iSlow0 * (this.iRec825 + <i32>(1)));
-        this.iVec3[<i32>(0)] = <i32>(1);
-        const fTemp0: f32 = ((<i32>(1) - this.iVec3[<i32>(1)]) ? 0.0 : (fSlow3 + this.fRec841));
-        let fRecCur841: f32 = (fTemp0 - Mathf.floor(fTemp0));
-        const fTemp1: f32 = (fSlow5 + (this.fRec858[<i32>(1)] - 1.0));
+        const fTemp0: f32 = this.fRec858[<i32>(1)];
+        const fTemp1: f32 = (fSlow6 + (fTemp0 - 1.0));
         const iTemp0: i32 = (fTemp1 < 0.0);
-        const fTemp2: f32 = (fSlow5 + this.fRec858[<i32>(1)]);
-        let fRecBody5: f32 = (iTemp0 ? fTemp2 : fTemp1);
-        let fRecBody6: f32 = (iTemp0 ? fTemp2 : (fSlow5 + (this.fRec858[<i32>(1)] + (fSlow6 * fTemp1))));
-        this.fRec858[<i32>(0)] = fRecBody5;
-        this.fRec858_1[<i32>(0)] = fRecBody6;
-        const fTemp3: f32 = (fSlow8 + (this.fRec871[<i32>(1)] - 1.0));
-        const iTemp1: i32 = (fTemp3 < 0.0);
-        const fTemp4: f32 = (fSlow8 + this.fRec871[<i32>(1)]);
-        let fRecBody9: f32 = (iTemp1 ? fTemp4 : fTemp3);
-        let fRecBody10: f32 = (iTemp1 ? fTemp4 : (fSlow8 + (this.fRec871[<i32>(1)] + (fSlow9 * fTemp3))));
-        this.fRec871[<i32>(0)] = fRecBody9;
-        this.fRec871_1[<i32>(0)] = fRecBody10;
-        const fTemp5: f32 = max<f32>((min<f32>((this.fConst2 * fRecCur815), max<f32>(((this.fConst3 * (this.fConst1 - fRecCur815)) + 1.0), 0.8500000238418579)) * (1.0 - (this.fConst4 * <f32>(iRecCur825)))), 0.0);
-        const fTemp6: f32 = Mathf.tan((this.fConst6 * ((900.0 * fTemp5) + 200.0)));
-        const fTemp7: f32 = (1.0 / fTemp6);
-        const fTemp8: f32 = (((fTemp7 + 1.4142135381698608) / fTemp6) + 1.0);
-        this.fRec919[<i32>(0)] = ((0.6000000238418579 * fTbl835[max<i32>(min<i32>(<i32>(65535), <i32>((65536.0 * fRecCur841))), <i32>(0))]) - ((0.800000011920929 * (1.0 - (this.fRec858_1[<i32>(0)] + this.fRec871_1[<i32>(0)]))) + (((this.fRec919[<i32>(2)] * (((fTemp7 - 1.4142135381698608) / fTemp6) + 1.0)) + (2.0 * (this.fRec919[<i32>(1)] * (1.0 - (1.0 / Mathf.pow(fTemp6, 2.0)))))) / fTemp8)));
-        const output: f32 = <f32>((fSlow0 * ((fTemp5 * ((this.fRec919[<i32>(0)] + (2.0 * this.fRec919[<i32>(1)])) + this.fRec919[<i32>(2)])) / fTemp8)));
+        const fTemp2: f32 = (fSlow6 + fTemp0);
+        const fTemp3: f32 = this.fRec871[<i32>(1)];
+        const fTemp4: f32 = (fSlow8 + (fTemp3 - 1.0));
+        const iTemp1: i32 = (fTemp4 < 0.0);
+        const fTemp5: f32 = (fSlow8 + fTemp3);
+        this.fVec101[<i32>(0)] = fSlow4;
+        let fRecCur815: f32 = (fSlow4 + (this.fRec815 * <f32>((this.fVec101[<i32>(1)] >= fSlow4))));
+        let iRecCur825: i32 = (iSlow0 * (this.iRec825 + <i32>(1)));
+        const fTemp6: f32 = max<f32>((min<f32>((this.fConst3 * fRecCur815), max<f32>(((this.fConst4 * (this.fConst2 - fRecCur815)) + 1.0), 0.8500000238418579)) * (1.0 - (this.fConst6 * <f32>(iRecCur825)))), 0.0);
+        this.iVec3[<i32>(0)] = <i32>(1);
+        const iTemp2: i32 = this.iVec3[<i32>(1)];
+        const fTemp7: f32 = ((<i32>(1) - iTemp2) ? 0.0 : (fSlow5 + this.fRec841));
+        let fRecCur841: f32 = (fTemp7 - Mathf.floor(fTemp7));
+        let fRecBody6: f32 = (iTemp0 ? fTemp2 : fTemp1);
+        let fRecBody7: f32 = (iTemp0 ? fTemp2 : (fSlow6 + (fTemp0 + (fSlow3 * fTemp1))));
+        this.fRec858[<i32>(0)] = fRecBody6;
+        this.fRec858_1[<i32>(0)] = fRecBody7;
+        let fRecBody8: f32 = (iTemp1 ? fTemp5 : fTemp4);
+        let fRecBody9: f32 = (iTemp1 ? fTemp5 : (fSlow8 + (fTemp3 + (fSlow9 * fTemp4))));
+        this.fRec871[<i32>(0)] = fRecBody8;
+        this.fRec871_1[<i32>(0)] = fRecBody9;
+        const fTemp8: f32 = Mathf.tan((this.fConst5 * ((900.0 * fTemp6) + 200.0)));
+        const fTemp9: f32 = (1.0 / fTemp8);
+        const fTemp10: f32 = this.fRec919[<i32>(1)];
+        const fTemp11: f32 = (((fTemp9 + 1.4142135381698608) / fTemp8) + 1.0);
+        this.fRec919[<i32>(0)] = ((0.6000000238418579 * fTbl835[max<i32>(min<i32>(<i32>(65535), <i32>((65536.0 * fRecCur841))), <i32>(0))]) - ((0.800000011920929 * (1.0 - (this.fRec858_1[<i32>(0)] + this.fRec871_1[<i32>(0)]))) + (((this.fRec919[<i32>(2)] * (((fTemp9 - 1.4142135381698608) / fTemp8) + 1.0)) + (2.0 * (fTemp10 * (1.0 - (1.0 / Mathf.pow(fTemp8, 2.0)))))) / fTemp11)));
+        const output: f32 = <f32>((fSlow0 * ((fTemp6 * ((this.fRec919[<i32>(0)] + (2.0 * this.fRec919[<i32>(1)])) + this.fRec919[<i32>(2)])) / fTemp11)));
 
         this.fVec101[<i32>(1)] = this.fVec101[<i32>(0)];
         this.fRec815 = fRecCur815;

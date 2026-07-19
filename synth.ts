@@ -5,7 +5,7 @@ import { Kick } from '../faust/kick';
 import { Snare } from '../faust/snare';
 import { Hihat } from '../faust/hihat';
 import { Padsynth } from '../faust/padsynth';
-import { Organ } from '../faust/organ';
+import { Organ, OrganChannel } from '../faust/organ';
 import { Basslead } from '../faust/basslead';
 import { Jpverb, JpverbChannel } from '../faust/jpverb';
 
@@ -34,6 +34,20 @@ class ReverbSendChannel extends MidiChannel {
     }
 }
 
+// Organ needs its OrganChannel (for the cutoff CC param) AND the shared reverb send.
+class OrganReverbChannel extends OrganChannel {
+    send: f32;
+    constructor(numvoices: i32, factoryFunc: (channel: MidiChannel, voiceindex: i32) => MidiVoice, send: f32) {
+        super(numvoices, factoryFunc);
+        this.send = send;
+        this.reverb = 0;
+    }
+    preprocess(): void {
+        reverbSend.left  += this.signal.left  * this.send * this.volume;
+        reverbSend.right += this.signal.right * this.send * this.volume;
+    }
+}
+
 export function initializeMidiSynth(): void {
     reverbFx = new JpverbChannel(1, (channel: MidiChannel) => new Jpverb(channel));
 
@@ -43,9 +57,12 @@ export function initializeMidiSynth(): void {
     midichannels[3] = new ReverbSendChannel(2, (channel: MidiChannel) => new Snare(channel), 0.25);
     midichannels[4] = new ReverbSendChannel(4, (channel: MidiChannel) => new Hihat(channel), 0.15);
     midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.60);
-    midichannels[6] = new ReverbSendChannel(8, (channel: MidiChannel) => new Organ(channel), 0.35);
-  	midichannels[6].controlchange(91,80);
+  	midichannels[5].controlchange(91,90);
+    midichannels[6] = new OrganReverbChannel(8, (channel: MidiChannel) => new Organ(channel), 0.35);
+  	midichannels[6].controlchange(91,90);
     midichannels[7] = new ReverbSendChannel(8, (channel: MidiChannel) => new Basslead(channel), 0.25);
+  	midichannels[7].controlchange(91,90);
+  	midichannels[7].controlchange(7,85);
 }
 
 export function postprocess(): void {
