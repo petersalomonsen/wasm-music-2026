@@ -651,7 +651,7 @@ await waitDuration(16);
 recChords(); takeBass2(); recPad(); takePadLead(); padOrgan(); organFilterBeat(); padLeadInC(); leadDrums(); altGhosts(true);
 await waitDuration(16);
 
-recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); organFilterBeat(); padLeadInC(); leadDrums(); altGhosts(true);
+recChords(); takeBass2(); recPadHigh(); takePadLeadHigh(); padOrganHigh(); organFilterBeat(); padLeadInC(); leadDrums(); altGhosts(true); snareFill();
 await waitDuration(16);
 
 // ============================================================
