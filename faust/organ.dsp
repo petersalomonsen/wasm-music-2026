@@ -8,6 +8,8 @@ gain = hslider("gain", 0.5, 0, 1, 0.01);
 // resonant lowpass cutoff — becomes a channel CC so the song can sweep it.
 // Default fully open so all the non-modulated organ parts sound unchanged.
 cutoff = hslider("cutoff", 16000, 200, 16000, 1);
+// smooth the cutoff so stepped CC changes glide (~8 ms) instead of clicking
+cutoffSmooth = cutoff : si.smooth(ba.tau2pole(0.008));
 
 // Electric / tonewheel organ: additive drawbars at harmonic ratios,
 // with a gentle scanner-style vibrato and a key-click transient.
@@ -26,5 +28,5 @@ click = en.ar(0.001, 0.02, gate) * no.noise * 0.12;
 tremolo = 1 + os.osc(6.7) * 0.07;
 
 // resonant lowpass so the per-beat cutoff sweep is clearly audible
-filtered = (tonewheel / 3.4 + click) : fi.resonlp(cutoff, 4, 1);
+filtered = (tonewheel / 3.4 + click) : fi.resonlp(cutoffSmooth, 4, 1);
 process = filtered * env * tremolo * gain;
