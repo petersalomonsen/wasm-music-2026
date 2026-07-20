@@ -8,6 +8,7 @@ import { Padsynth } from '../faust/padsynth';
 import { Organ, OrganChannel } from '../faust/organ';
 import { Basslead } from '../faust/basslead';
 import { Jpverb, JpverbChannel } from '../faust/jpverb';
+import { Master, MasterChannel } from '../faust/master';
 
 // --- Shared jpverb reverb send bus -----------------------------------------
 // Every instrument channel adds a scaled copy of its (pre-fader) signal into
@@ -17,6 +18,7 @@ const reverbSend = new StereoSignal();
 // Created in initializeMidiSynth() — a MidiChannel subclass must not be
 // instantiated at module top-level (runs before the core is initialized).
 let reverbFx: JpverbChannel = changetype<JpverbChannel>(0);
+let masterFx: MasterChannel = changetype<MasterChannel>(0);
 
 // A MidiChannel that also feeds the shared reverb send.
 class ReverbSendChannel extends MidiChannel {
@@ -50,6 +52,7 @@ class OrganReverbChannel extends OrganChannel {
 
 export function initializeMidiSynth(): void {
     reverbFx = new JpverbChannel(1, (channel: MidiChannel) => new Jpverb(channel));
+    masterFx = new MasterChannel(1, (channel: MidiChannel) => new Master(channel));
 
     midichannels[0] = new ReverbSendChannel(6, (channel: MidiChannel) => new Bass(channel), 0.10);
     midichannels[1] = new ReverbSendChannel(8, (channel: MidiChannel) => new Lead(channel), 0.30);
@@ -74,4 +77,12 @@ export function postprocess(): void {
     outputline.right += reverbFx.signal.right;
     reverbFx.signal.clear();
     reverbSend.clear();
+
+    // Mastering: run the master chain over the final mix before it is stored.
+    masterFx.signal.left  = outputline.left;
+    masterFx.signal.right = outputline.right;
+    masterFx.preprocess();
+    outputline.left  = masterFx.signal.left;
+    outputline.right = masterFx.signal.right;
+    masterFx.signal.clear();
 }
