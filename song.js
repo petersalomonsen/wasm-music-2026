@@ -642,8 +642,22 @@ await waitDuration(16);
 // ...then x2 with a fuller beat: kick + hihat on every beat, snare on every 2nd beat.
 recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsFull();
 await waitDuration(16);
+// bass (bassline + chords, ch0) alternates its volume on the 8th grid, matching the kick
+const bassVolBeat = () => {
+  const v = [];
+  const steps = 32;                              // 32 eighth-positions over 16 beats
+  for (let i = 0; i < steps; i++) {
+    const b = i * 0.5;
+    const dip = Math.round(100 - 55 * (i / (steps - 1)));  // 100 (barely) -> 45 (full diff)
+    v.push([b, controlchange(7, 100)]);          // full on the 8th
+    v.push([b + 0.25, controlchange(7, dip)]);   // dip deepens over time
+  }
+  v.push([15.99, controlchange(7, 100)]);      // reset to full for the next part
+  createTrack(0).play(v);
+};
+
 // last round: double kick density (8ths) with snare + hihat on each kick, snare roll at the end.
-recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsBuild(); snareRoll();
+recBass(); recChords(); recPad(); takePadLead(); padLeadInC(); padDrumsBuild(); bassVolBeat(); snareRoll();
 await waitDuration(16);
 
 // final repeat: organ also doubles the lead melody; alternate beat + ghost hits
