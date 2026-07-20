@@ -771,8 +771,6 @@ await waitDuration(16);
 wrapBass(); playLead(); wrapOrgan(); padEnding();  leadDrums(); altGhosts(true);
 await waitDuration(16);
 
-startRecording();
-
 createTrack(0).play([[ 1.07, gs5(0.88, 81) ],
 [ 1.05, as5(0.91, 88) ],
 [ 1.05, ds6(0.92, 82) ],
@@ -840,13 +838,58 @@ createTrack(0).play([[ 1.07, gs5(0.88, 81) ],
 // Two more times
 upliftpads(); wrapBass(); playLead(); wrapOrgan(); padEnding();  leadDrums(); altGhosts(true);
 await waitDuration(16);
+
 wrapBass(); playLead(); wrapOrgan(); padEnding();  leadDrums(); altGhosts(true);
 await waitDuration(16);
 
 
+startRecording();
+
 // ends with just a kick and a hihat
 outroKickHat();
-await waitDuration(4);
+createTrack(0).play([[ 1.07, gs5(0.84, 72) ],
+[ 1.04, ds5(0.89, 72) ],
+[ 1.04, gs4(0.92, 71) ],
+[ 1.10, f3(0.91, 83) ],
+[ 2.55, gs4(0.81, 71) ],
+[ 2.57, ds5(0.81, 64) ],
+[ 2.55, gs5(0.88, 68) ],
+[ 2.61, f3(0.89, 75) ],
+[ 4.09, g3(0.79, 69) ],
+[ 4.09, as5(0.80, 72) ],
+[ 4.08, ds5(0.84, 72) ],
+[ 4.10, as4(0.84, 69) ],
+[ 5.53, ds5(0.68, 64) ],
+[ 5.53, as4(0.69, 72) ],
+[ 5.50, as5(0.72, 78) ],
+[ 5.53, g3(0.74, 75) ],
+[ 6.99, as4(7.04, 72) ],
+[ 7.02, gs3(7.04, 64) ],
+[ 7.02, ds5(7.06, 76) ]].quantize(4));
+
+createTrack(7).play([[ 0.32, controlchange(64, 127) ],
+[ 0.63, as5(0.70, 68) ],
+[ 1.09, ds6(0.45, 44) ],
+[ 1.54, gs6(0.49, 81) ],
+[ 2.07, g6(0.45, 69) ],
+[ 2.55, f6(0.45, 63) ],
+[ 3.51, controlchange(64, 0) ],
+[ 3.03, ds6(0.54, 52) ],
+[ 3.80, controlchange(64, 127) ],
+[ 3.54, as6(0.99, 82) ],
+[ 4.49, gs6(0.74, 63) ],
+[ 5.51, g6(0.93, 70) ],
+[ 6.48, gs6(0.43, 59) ],
+[ 7.06, as6(0.53, 78) ],
+[ 7.84, controlchange(64, 0) ],
+[ 8.07, controlchange(64, 127) ],
+[ 7.58, ds6(2.02, 56) ],
+[ 9.60, as5(0.50, 71) ],
+[ 11.26, ds5(2.75, 71) ],
+[ 15.37, controlchange(64, 0) ]].quantize(4));
+
+
+await waitDuration(16);
 stopRecording();
 loopHere();
 
