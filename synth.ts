@@ -54,18 +54,20 @@ export function initializeMidiSynth(): void {
     reverbFx = new JpverbChannel(1, (channel: MidiChannel) => new Jpverb(channel));
     masterFx = new MasterChannel(1, (channel: MidiChannel) => new Master(channel));
 
-    midichannels[0] = new ReverbSendChannel(6, (channel: MidiChannel) => new Bass(channel), 0.10);
+    midichannels[0] = new ReverbSendChannel(6, (channel: MidiChannel) => new Bass(channel), 0.15);
+  	midichannels[0].controlchange(7,106);
     midichannels[1] = new ReverbSendChannel(8, (channel: MidiChannel) => new Lead(channel), 0.30);
     midichannels[2] = new ReverbSendChannel(2, (channel: MidiChannel) => new Kick(channel), 0.05);
     midichannels[3] = new ReverbSendChannel(2, (channel: MidiChannel) => new Snare(channel), 0.25);
     midichannels[4] = new ReverbSendChannel(4, (channel: MidiChannel) => new Hihat(channel), 0.15);
     midichannels[5] = new ReverbSendChannel(6, (channel: MidiChannel) => new Padsynth(channel), 0.60);
-  	midichannels[5].controlchange(91,90);
+  	midichannels[5].controlchange(91,100);
+  	midichannels[5].controlchange(7,85);
     midichannels[6] = new OrganReverbChannel(8, (channel: MidiChannel) => new Organ(channel), 0.35);
   	midichannels[6].controlchange(91,90);
     midichannels[7] = new ReverbSendChannel(8, (channel: MidiChannel) => new Basslead(channel), 0.25);
   	midichannels[7].controlchange(91,90);
-  	midichannels[7].controlchange(7,85);
+  	midichannels[7].controlchange(7,80);
 }
 
 export function postprocess(): void {

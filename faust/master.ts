@@ -64,9 +64,9 @@ export class Master extends MidiVoice {
 }
 
 export class MasterChannel extends MidiChannel {
+    private fVec4423: StaticArray<f32> = new StaticArray<f32>(2);
     private fVec4486: StaticArray<f32> = new StaticArray<f32>(2);
     private fVec4787: StaticArray<f32> = new StaticArray<f32>(2);
-    private fVec4423: StaticArray<f32> = new StaticArray<f32>(2);
     private fConst1: f32;
     private fConst2: f32;
     private fConst3: f32;
@@ -189,9 +189,9 @@ export class MasterChannel extends MidiChannel {
     }
 
     private _effectInstanceClear(): void {
-        for (let lDelay0: i32 = 0; lDelay0 < <i32>(2); lDelay0 = lDelay0 + 1) { this.fVec4486[lDelay0] = 0.0; }
-        for (let lDelay1: i32 = 0; lDelay1 < <i32>(2); lDelay1 = lDelay1 + 1) { this.fVec4787[lDelay1] = 0.0; }
-        for (let lDelay2: i32 = 0; lDelay2 < <i32>(2); lDelay2 = lDelay2 + 1) { this.fVec4423[lDelay2] = 0.0; }
+        for (let lDelay0: i32 = 0; lDelay0 < <i32>(2); lDelay0 = lDelay0 + 1) { this.fVec4423[lDelay0] = 0.0; }
+        for (let lDelay1: i32 = 0; lDelay1 < <i32>(2); lDelay1 = lDelay1 + 1) { this.fVec4486[lDelay1] = 0.0; }
+        for (let lDelay2: i32 = 0; lDelay2 < <i32>(2); lDelay2 = lDelay2 + 1) { this.fVec4787[lDelay2] = 0.0; }
         this.fRec4794 = 0.0;
         this.fRec4555 = 0.0;
         this.fRec4431 = 0.0;
