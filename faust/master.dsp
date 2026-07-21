@@ -13,9 +13,9 @@ process = 0.0 * freq * gain * gate;
 // 3. modest makeup drive
 // 4. bass-safe mid/side widener (widen the side only above ~250 Hz)
 // 5. 1176-style limiter, then output makeup into a -0.2 dBFS brickwall
-input   = 5.0;    // pre-gain into the chain
+input   = 3.0;    // pre-gain into the chain
 tone    = fi.highpass(2, 30) : fi.highshelf(1, 3, 9000);
-drive   = 2.0;
+drive   = 2.5;
 outgain = 1.3;    // makeup after the limiter to fill the headroom
 ceiling = 0.98;   // ~-0.2 dBFS brickwall safety
 
@@ -31,7 +31,7 @@ with {
     hicomp  = co.compressor_stereo(2.0, -20, 0.03,  0.25);
 };
 
-width = 1.8;
+width = 1.5;
 fc    = 250;
 widen(l, r) = (m + sw), (m - sw)
 with {
