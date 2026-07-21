@@ -221,11 +221,11 @@ const recChords = () => bass.play([
 
 // pad (channel 5)
 const recPad = () => pad.play([
-  [ 2.97, as6(0.57, 89) ],
+  [ 2.97, as6(0.57, 80) ],
   [ 3.97, controlchange(64, 127) ],
-  [ 3.52, g6(3.59, 88) ],
+  [ 3.52, g6(3.59, 80) ],
   [ 7.34, controlchange(64, 0) ],
-  [ 7.11, as6(0.54, 97) ],
+  [ 7.11, as6(0.54, 80) ],
   [ 7.95, controlchange(64, 127) ],
   [ 7.57, f6(3.43, 84) ],
   [ 10.99, ds6(0.49, 81) ],
@@ -489,23 +489,23 @@ const takePadLead = () => createTrack(7).play([
 
 // last-section variants: the final C is one octave up (c7)
 const recPadHigh = () => pad.play([
-  [ 2.97, as6(0.57, 89) ],
+  [ 2.97, as6(0.57, 80) ],
   [ 3.97, controlchange(64, 127) ],
   [ 3.52, g6(3.59, 88) ],
   [ 7.34, controlchange(64, 0) ],
-  [ 7.11, as6(0.54, 97) ],
+  [ 7.11, as6(0.54, 80) ],
   [ 7.95, controlchange(64, 127) ],
-  [ 7.57, f6(3.43, 84) ],
+  [ 7.57, f6(3.43, 80) ],
   [ 10.99, ds6(0.49, 81) ],
   [ 11.87, controlchange(64, 0) ],
   [ 13.48, controlchange(64, 127) ],
   [ 11.54, c7(4.04, 74) ],
   [ 15.93, controlchange(64, 0) ]].quantize(4));
 const takePadLeadHigh = () => createTrack(7).play([
-  [ 2.97, as6(0.57, 89) ],
-  [ 3.52, g6(3.59, 88) ],
-  [ 7.11, as6(0.54, 97) ],
-  [ 7.57, f6(3.43, 84) ],
+  [ 2.97, as6(0.57, 80) ],
+  [ 3.52, g6(3.59, 80) ],
+  [ 7.11, as6(0.54, 80) ],
+  [ 7.57, f6(3.43, 80) ],
   [ 10.99, ds6(0.49, 81) ],
   [ 11.54, c7(4.04, 74) ]].quantize(4));
 
