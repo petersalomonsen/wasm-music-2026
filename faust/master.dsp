@@ -7,16 +7,17 @@ gain = hslider("gain", 0.5, 0, 1, 0.01);
 process = 0.0 * freq * gain * gate;
 
 // ---- Mastering chain for a melodic electronic track ----
-// 0. input pre-gain — main loudness lever (the mix was leaving ~5 dB unused)
+// 0. input pre-gain (drives the comp thresholds + limiter) — loudness lever
 // 1. sub-rumble highpass (~30 Hz) + a gentle air shelf
-// 2. gentle 3-band glue compressor (low band tamed harder so sub/kick don't
-//    duck the mids; mid/high stay light)
+// 2. gentle 3-band glue compressor
 // 3. modest makeup drive
 // 4. bass-safe mid/side widener (widen the side only above ~250 Hz)
-// 5. brickwall (1176-style) limiter as the loudness ceiling / safety
-input = 2.0;   // +6 dB into the chain; raise for louder / more compression
-tone  = fi.highpass(2, 30) : fi.highshelf(1, 3, 9000);
-drive = 1.5;
+// 5. 1176-style limiter, then output makeup into a -0.2 dBFS brickwall
+input   = 5.0;    // pre-gain into the chain
+tone    = fi.highpass(2, 30) : fi.highshelf(1, 3, 9000);
+drive   = 2.0;
+outgain = 1.3;    // makeup after the limiter to fill the headroom
+ceiling = 0.98;   // ~-0.2 dBFS brickwall safety
 
 mbcompress = si.bus(2) <: (lo : locomp), (mid : midcomp), (hi : hicomp) :> si.bus(2)
 with {
@@ -30,7 +31,7 @@ with {
     hicomp  = co.compressor_stereo(2.0, -20, 0.03,  0.25);
 };
 
-width = 1.4;
+width = 1.8;
 fc    = 250;
 widen(l, r) = (m + sw), (m - sw)
 with {
@@ -39,9 +40,13 @@ with {
     sw = (s : fi.lowpass(1, fc)) + (s : fi.highpass(1, fc)) * width;
 };
 
+brick = min(ceiling) : max(0.0 - ceiling);
+
 effect = par(i, 2, *(input))
        : par(i, 2, tone)
        : mbcompress
        : par(i, 2, *(drive))
        : widen
-       : co.limiter_1176_R4_stereo;
+       : co.limiter_1176_R4_stereo
+       : par(i, 2, *(outgain))
+       : par(i, 2, brick);

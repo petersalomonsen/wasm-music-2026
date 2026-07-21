@@ -81,6 +81,8 @@ export function postprocess(): void {
     reverbSend.clear();
 
     // Mastering: run the master chain over the final mix before it is stored.
+    // Mastering gains (input pre-gain, output makeup, ceiling) now live in
+    // faust/master.dsp — postprocess just runs the chain in place.
     masterFx.signal.left  = outputline.left;
     masterFx.signal.right = outputline.right;
     masterFx.preprocess();

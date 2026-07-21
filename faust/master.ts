@@ -64,9 +64,9 @@ export class Master extends MidiVoice {
 }
 
 export class MasterChannel extends MidiChannel {
-    private fVec4427: StaticArray<f32> = new StaticArray<f32>(2);
-    private fVec4791: StaticArray<f32> = new StaticArray<f32>(2);
-    private fVec4490: StaticArray<f32> = new StaticArray<f32>(2);
+    private fVec4556: StaticArray<f32> = new StaticArray<f32>(2);
+    private fVec4862: StaticArray<f32> = new StaticArray<f32>(2);
+    private fVec4493: StaticArray<f32> = new StaticArray<f32>(2);
     private fConst1: f32;
     private fConst2: f32;
     private fConst3: f32;
@@ -104,36 +104,36 @@ export class MasterChannel extends MidiChannel {
     private fConst41: f32;
     private fConst42: f32;
     private fConst43: f32;
-    private fRec4798: f32;
-    private fRec4559: f32;
-    private fRec4435: f32;
-    private fRec4419: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4443: f32;
-    private fRec4455: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4468: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4498: f32;
-    private fRec4482: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4506: f32;
-    private fRec4514: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4527: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4549: f32;
-    private fRec4575: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4625: f32;
+    private fRec4521: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4501: f32;
+    private fRec4485: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4509: f32;
+    private fRec4534: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4580: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4564: f32;
+    private fRec4548: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4572: f32;
     private fRec4593: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4606: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4688: f32;
-    private fRec4629: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4643: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4656: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4678: f32;
-    private fRec4698: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4712: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4777: f32;
-    private fRec4730: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4744: StaticArray<f32> = new StaticArray<f32>(3);
-    private fRec4767: f32;
-    private fRec4806: f32;
-    private fRec4850: f32;
-    private fRec4840: f32;
+    private fRec4615: f32;
+    private fRec4870: f32;
+    private fRec4648: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4666: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4679: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4760: f32;
+    private fRec4701: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4715: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4728: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4750: f32;
+    private fRec4770: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4784: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4849: f32;
+    private fRec4802: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4816: StaticArray<f32> = new StaticArray<f32>(3);
+    private fRec4839: f32;
+    private fRec4885: f32;
+    private fRec4923: f32;
+    private fRec4913: f32;
 
     constructor(numvoices: i32, factoryFunc: (channel: MidiChannel, voiceindex: i32) => MidiVoice) {
         super(numvoices, factoryFunc);
@@ -189,179 +189,180 @@ export class MasterChannel extends MidiChannel {
     }
 
     private _effectInstanceClear(): void {
-        for (let lDelay0: i32 = 0; lDelay0 < <i32>(2); lDelay0 = lDelay0 + 1) { this.fVec4427[lDelay0] = 0.0; }
-        for (let lDelay1: i32 = 0; lDelay1 < <i32>(2); lDelay1 = lDelay1 + 1) { this.fVec4791[lDelay1] = 0.0; }
-        for (let lDelay2: i32 = 0; lDelay2 < <i32>(2); lDelay2 = lDelay2 + 1) { this.fVec4490[lDelay2] = 0.0; }
-        this.fRec4798 = 0.0;
-        this.fRec4559 = 0.0;
-        this.fRec4435 = 0.0;
-        for (let lRec3: i32 = 0; lRec3 < <i32>(3); lRec3 = lRec3 + 1) { this.fRec4419[lRec3] = 0.0; }
-        this.fRec4443 = 0.0;
-        for (let lRec4: i32 = 0; lRec4 < <i32>(3); lRec4 = lRec4 + 1) { this.fRec4455[lRec4] = 0.0; }
-        for (let lRec5: i32 = 0; lRec5 < <i32>(3); lRec5 = lRec5 + 1) { this.fRec4468[lRec5] = 0.0; }
-        this.fRec4498 = 0.0;
-        for (let lRec6: i32 = 0; lRec6 < <i32>(3); lRec6 = lRec6 + 1) { this.fRec4482[lRec6] = 0.0; }
-        this.fRec4506 = 0.0;
-        for (let lRec7: i32 = 0; lRec7 < <i32>(3); lRec7 = lRec7 + 1) { this.fRec4514[lRec7] = 0.0; }
-        for (let lRec8: i32 = 0; lRec8 < <i32>(3); lRec8 = lRec8 + 1) { this.fRec4527[lRec8] = 0.0; }
-        this.fRec4549 = 0.0;
-        for (let lRec9: i32 = 0; lRec9 < <i32>(3); lRec9 = lRec9 + 1) { this.fRec4575[lRec9] = 0.0; }
-        for (let lRec10: i32 = 0; lRec10 < <i32>(3); lRec10 = lRec10 + 1) { this.fRec4593[lRec10] = 0.0; }
-        for (let lRec11: i32 = 0; lRec11 < <i32>(3); lRec11 = lRec11 + 1) { this.fRec4606[lRec11] = 0.0; }
-        this.fRec4688 = 0.0;
-        for (let lRec12: i32 = 0; lRec12 < <i32>(3); lRec12 = lRec12 + 1) { this.fRec4629[lRec12] = 0.0; }
-        for (let lRec13: i32 = 0; lRec13 < <i32>(3); lRec13 = lRec13 + 1) { this.fRec4643[lRec13] = 0.0; }
-        for (let lRec14: i32 = 0; lRec14 < <i32>(3); lRec14 = lRec14 + 1) { this.fRec4656[lRec14] = 0.0; }
-        this.fRec4678 = 0.0;
-        for (let lRec15: i32 = 0; lRec15 < <i32>(3); lRec15 = lRec15 + 1) { this.fRec4698[lRec15] = 0.0; }
-        for (let lRec16: i32 = 0; lRec16 < <i32>(3); lRec16 = lRec16 + 1) { this.fRec4712[lRec16] = 0.0; }
-        this.fRec4777 = 0.0;
-        for (let lRec17: i32 = 0; lRec17 < <i32>(3); lRec17 = lRec17 + 1) { this.fRec4730[lRec17] = 0.0; }
-        for (let lRec18: i32 = 0; lRec18 < <i32>(3); lRec18 = lRec18 + 1) { this.fRec4744[lRec18] = 0.0; }
-        this.fRec4767 = 0.0;
-        this.fRec4806 = 0.0;
-        this.fRec4850 = 0.0;
-        this.fRec4840 = 0.0;
+        for (let lDelay0: i32 = 0; lDelay0 < <i32>(2); lDelay0 = lDelay0 + 1) { this.fVec4556[lDelay0] = 0.0; }
+        for (let lDelay1: i32 = 0; lDelay1 < <i32>(2); lDelay1 = lDelay1 + 1) { this.fVec4862[lDelay1] = 0.0; }
+        for (let lDelay2: i32 = 0; lDelay2 < <i32>(2); lDelay2 = lDelay2 + 1) { this.fVec4493[lDelay2] = 0.0; }
+        this.fRec4625 = 0.0;
+        for (let lRec3: i32 = 0; lRec3 < <i32>(3); lRec3 = lRec3 + 1) { this.fRec4521[lRec3] = 0.0; }
+        this.fRec4501 = 0.0;
+        for (let lRec4: i32 = 0; lRec4 < <i32>(3); lRec4 = lRec4 + 1) { this.fRec4485[lRec4] = 0.0; }
+        this.fRec4509 = 0.0;
+        for (let lRec5: i32 = 0; lRec5 < <i32>(3); lRec5 = lRec5 + 1) { this.fRec4534[lRec5] = 0.0; }
+        for (let lRec6: i32 = 0; lRec6 < <i32>(3); lRec6 = lRec6 + 1) { this.fRec4580[lRec6] = 0.0; }
+        this.fRec4564 = 0.0;
+        for (let lRec7: i32 = 0; lRec7 < <i32>(3); lRec7 = lRec7 + 1) { this.fRec4548[lRec7] = 0.0; }
+        this.fRec4572 = 0.0;
+        for (let lRec8: i32 = 0; lRec8 < <i32>(3); lRec8 = lRec8 + 1) { this.fRec4593[lRec8] = 0.0; }
+        this.fRec4615 = 0.0;
+        this.fRec4870 = 0.0;
+        for (let lRec9: i32 = 0; lRec9 < <i32>(3); lRec9 = lRec9 + 1) { this.fRec4648[lRec9] = 0.0; }
+        for (let lRec10: i32 = 0; lRec10 < <i32>(3); lRec10 = lRec10 + 1) { this.fRec4666[lRec10] = 0.0; }
+        for (let lRec11: i32 = 0; lRec11 < <i32>(3); lRec11 = lRec11 + 1) { this.fRec4679[lRec11] = 0.0; }
+        this.fRec4760 = 0.0;
+        for (let lRec12: i32 = 0; lRec12 < <i32>(3); lRec12 = lRec12 + 1) { this.fRec4701[lRec12] = 0.0; }
+        for (let lRec13: i32 = 0; lRec13 < <i32>(3); lRec13 = lRec13 + 1) { this.fRec4715[lRec13] = 0.0; }
+        for (let lRec14: i32 = 0; lRec14 < <i32>(3); lRec14 = lRec14 + 1) { this.fRec4728[lRec14] = 0.0; }
+        this.fRec4750 = 0.0;
+        for (let lRec15: i32 = 0; lRec15 < <i32>(3); lRec15 = lRec15 + 1) { this.fRec4770[lRec15] = 0.0; }
+        for (let lRec16: i32 = 0; lRec16 < <i32>(3); lRec16 = lRec16 + 1) { this.fRec4784[lRec16] = 0.0; }
+        this.fRec4849 = 0.0;
+        for (let lRec17: i32 = 0; lRec17 < <i32>(3); lRec17 = lRec17 + 1) { this.fRec4802[lRec17] = 0.0; }
+        for (let lRec18: i32 = 0; lRec18 < <i32>(3); lRec18 = lRec18 + 1) { this.fRec4816[lRec18] = 0.0; }
+        this.fRec4839 = 0.0;
+        this.fRec4885 = 0.0;
+        this.fRec4923 = 0.0;
+        this.fRec4913 = 0.0;
     }
 
     preprocess(): void {
-        const fTemp0: f32 = this.fRec4419[<i32>(1)];
-        this.fRec4419[<i32>(0)] = ((2.0 * <f32>(this.signal.left)) - (((this.fRec4419[<i32>(2)] * this.fConst9) + (this.fConst26 * fTemp0)) / this.fConst10));
-        const fTemp1: f32 = (this.fConst25 * (((this.fRec4419[<i32>(0)] + this.fRec4419[<i32>(2)]) - (2.0 * fTemp0)) / this.fConst10));
-        this.fVec4427[<i32>(0)] = fTemp1;
-        const fTemp2: f32 = this.fVec4427[<i32>(1)];
-        let fRecCur4435: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4435) - (this.fConst1 * (fTemp1 - fTemp2)))));
-        let fRecCur4443: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4443) - (fTemp1 + fTemp2))));
-        const fTemp3: f32 = ((1.4125375747680664 * fRecCur4435) + fRecCur4443);
-        const fTemp4: f32 = this.fRec4455[<i32>(1)];
-        this.fRec4455[<i32>(0)] = (fTemp3 - (((this.fRec4455[<i32>(2)] * this.fConst13) + (this.fConst28 * fTemp4)) / this.fConst14));
-        const fTemp5: f32 = (2.0 * fTemp4);
-        const fTemp6: f32 = this.fRec4455[<i32>(2)];
-        const fTemp7: f32 = this.fRec4468[<i32>(1)];
-        this.fRec4468[<i32>(0)] = ((((this.fRec4455[<i32>(0)] + fTemp5) + fTemp6) / this.fConst14) - (((this.fRec4468[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp7)) / this.fConst16));
-        const fTemp8: f32 = ((this.fRec4468[<i32>(0)] + (2.0 * fTemp7)) + this.fRec4468[<i32>(2)]);
-        const fTemp9: f32 = this.fRec4482[<i32>(1)];
-        this.fRec4482[<i32>(0)] = ((2.0 * <f32>(this.signal.right)) - (((this.fRec4482[<i32>(2)] * this.fConst9) + (this.fConst26 * fTemp9)) / this.fConst10));
-        const fTemp10: f32 = (this.fConst25 * (((this.fRec4482[<i32>(0)] + this.fRec4482[<i32>(2)]) - (2.0 * fTemp9)) / this.fConst10));
-        this.fVec4490[<i32>(0)] = fTemp10;
-        const fTemp11: f32 = this.fVec4490[<i32>(1)];
-        let fRecCur4498: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4498) - (this.fConst1 * (fTemp10 - fTemp11)))));
-        let fRecCur4506: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4506) - (fTemp10 + fTemp11))));
-        const fTemp12: f32 = ((1.4125375747680664 * fRecCur4498) + fRecCur4506);
-        const fTemp13: f32 = this.fRec4514[<i32>(1)];
-        this.fRec4514[<i32>(0)] = (fTemp12 - (((this.fRec4514[<i32>(2)] * this.fConst13) + (this.fConst28 * fTemp13)) / this.fConst14));
-        const fTemp14: f32 = (2.0 * fTemp13);
-        const fTemp15: f32 = this.fRec4514[<i32>(2)];
-        const fTemp16: f32 = this.fRec4527[<i32>(1)];
-        this.fRec4527[<i32>(0)] = ((((this.fRec4514[<i32>(0)] + fTemp14) + fTemp15) / this.fConst14) - (((this.fRec4527[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp16)) / this.fConst16));
-        const fTemp17: f32 = ((this.fRec4527[<i32>(0)] + (2.0 * fTemp16)) + this.fRec4527[<i32>(2)]);
-        const fTemp18: f32 = Mathf.abs((Mathf.abs((fTemp8 / this.fConst16)) + Mathf.abs((fTemp17 / this.fConst16))));
-        const fTemp19: f32 = ((fTemp18 > this.fRec4549) ? this.fConst36 : this.fConst29);
-        let fRecCur4549: f32 = ((fTemp18 * (1.0 - fTemp19)) + (this.fRec4549 * fTemp19));
-        let fRecCur4559: f32 = ((this.fConst23 * this.fRec4559) - (this.fConst24 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4549))) + 24.0), 0.0)));
-        const fTemp20: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4559));
-        const fTemp21: f32 = this.fRec4575[<i32>(1)];
-        this.fRec4575[<i32>(0)] = ((this.fConst27 * (((this.fRec4455[<i32>(0)] + fTemp6) - fTemp5) / this.fConst14)) - (((this.fRec4575[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp21)) / this.fConst16));
-        const fTemp22: f32 = this.fRec4593[<i32>(1)];
-        this.fRec4593[<i32>(0)] = ((this.fConst27 * (((this.fRec4575[<i32>(0)] + this.fRec4575[<i32>(2)]) - (2.0 * fTemp21)) / this.fConst16)) - (((this.fRec4593[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp22)) / this.fConst20));
-        const fTemp23: f32 = this.fRec4606[<i32>(1)];
-        this.fRec4606[<i32>(0)] = ((((this.fRec4593[<i32>(0)] + (2.0 * fTemp22)) + this.fRec4593[<i32>(2)]) / this.fConst20) - (((this.fRec4606[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp23)) / this.fConst22));
-        const fTemp24: f32 = ((this.fRec4606[<i32>(0)] + (2.0 * fTemp23)) + this.fRec4606[<i32>(2)]);
-        const fTemp25: f32 = this.fRec4629[<i32>(1)];
-        this.fRec4629[<i32>(0)] = ((this.fConst27 * (((this.fRec4514[<i32>(0)] + fTemp15) - fTemp14) / this.fConst14)) - (((this.fRec4629[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp25)) / this.fConst16));
-        const fTemp26: f32 = this.fRec4643[<i32>(1)];
-        this.fRec4643[<i32>(0)] = ((this.fConst27 * (((this.fRec4629[<i32>(0)] + this.fRec4629[<i32>(2)]) - (2.0 * fTemp25)) / this.fConst16)) - (((this.fRec4643[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp26)) / this.fConst20));
-        const fTemp27: f32 = this.fRec4656[<i32>(1)];
-        this.fRec4656[<i32>(0)] = ((((this.fRec4643[<i32>(0)] + (2.0 * fTemp26)) + this.fRec4643[<i32>(2)]) / this.fConst20) - (((this.fRec4656[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp27)) / this.fConst22));
-        const fTemp28: f32 = ((this.fRec4656[<i32>(0)] + (2.0 * fTemp27)) + this.fRec4656[<i32>(2)]);
-        const fTemp29: f32 = Mathf.abs((Mathf.abs((fTemp24 / this.fConst22)) + Mathf.abs((fTemp28 / this.fConst22))));
-        const fTemp30: f32 = ((fTemp29 > this.fRec4678) ? this.fConst35 : this.fConst34);
-        let fRecCur4678: f32 = ((fTemp29 * (1.0 - fTemp30)) + (this.fRec4678 * fTemp30));
-        let fRecCur4688: f32 = ((this.fConst32 * this.fRec4688) - (this.fConst33 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4678))) + 22.0), 0.0)));
-        const fTemp31: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4688));
-        const fTemp32: f32 = this.fRec4698[<i32>(1)];
-        this.fRec4698[<i32>(0)] = (fTemp3 - (((this.fRec4698[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp32)) / this.fConst20));
-        const fTemp33: f32 = this.fRec4712[<i32>(1)];
-        this.fRec4712[<i32>(0)] = ((this.fConst30 * (((this.fRec4698[<i32>(0)] + this.fRec4698[<i32>(2)]) - (2.0 * fTemp32)) / this.fConst20)) - (((this.fRec4712[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp33)) / this.fConst22));
-        const fTemp34: f32 = ((this.fRec4712[<i32>(0)] + this.fRec4712[<i32>(2)]) - (2.0 * fTemp33));
-        const fTemp35: f32 = this.fRec4730[<i32>(1)];
-        this.fRec4730[<i32>(0)] = (fTemp12 - (((this.fRec4730[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp35)) / this.fConst20));
-        const fTemp36: f32 = this.fRec4744[<i32>(1)];
-        this.fRec4744[<i32>(0)] = ((this.fConst30 * (((this.fRec4730[<i32>(0)] + this.fRec4730[<i32>(2)]) - (2.0 * fTemp35)) / this.fConst20)) - (((this.fRec4744[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp36)) / this.fConst22));
-        const fTemp37: f32 = ((this.fRec4744[<i32>(0)] + this.fRec4744[<i32>(2)]) - (2.0 * fTemp36));
-        const fTemp38: f32 = Mathf.abs((Mathf.abs((this.fConst30 * (fTemp34 / this.fConst22))) + Mathf.abs((this.fConst30 * (fTemp37 / this.fConst22)))));
-        const fTemp39: f32 = ((fTemp38 > this.fRec4767) ? this.fConst39 : this.fConst38);
-        let fRecCur4767: f32 = ((fTemp38 * (1.0 - fTemp39)) + (this.fRec4767 * fTemp39));
-        let fRecCur4777: f32 = ((this.fConst36 * this.fRec4777) - (this.fConst37 * max<f32>((20.0 * (Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4767)) + 1.0)), 0.0)));
-        const fTemp40: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4777));
-        const fTemp41: f32 = ((fTemp24 * fTemp31) + (this.fConst30 * (fTemp34 * fTemp40)));
-        const fTemp42: f32 = ((fTemp28 * fTemp31) + (this.fConst30 * (fTemp37 * fTemp40)));
-        const fTemp43: f32 = (0.75 * (((fTemp20 * (fTemp8 - fTemp17)) / this.fConst16) + ((fTemp41 - fTemp42) / this.fConst22)));
-        this.fVec4791[<i32>(0)] = fTemp43;
-        const fTemp44: f32 = this.fVec4791[<i32>(1)];
-        let fRecCur4798: f32 = (-1.0 * (this.fConst6 * ((this.fConst4 * this.fRec4798) - (fTemp43 + fTemp44))));
-        let fRecCur4806: f32 = (-1.0 * (this.fConst6 * ((this.fConst4 * this.fRec4806) - (this.fConst3 * (fTemp43 - fTemp44)))));
-        const fTemp45: f32 = (1.399999976158142 * fRecCur4806);
-        const fTemp46: f32 = (0.75 * (((fTemp20 * (fTemp8 + fTemp17)) / this.fConst16) + ((fTemp41 + fTemp42) / this.fConst22)));
-        const fTemp47: f32 = (fRecCur4798 + (fTemp45 + fTemp46));
-        const fTemp48: f32 = (fTemp46 - (fTemp45 + fRecCur4798));
-        const fTemp49: f32 = Mathf.abs((Mathf.abs(fTemp47) + Mathf.abs(fTemp48)));
-        const fTemp50: f32 = ((fTemp49 > this.fRec4840) ? this.fConst43 : this.fConst42);
-        let fRecCur4840: f32 = ((fTemp49 * (1.0 - fTemp50)) + (this.fRec4840 * fTemp50));
-        let fRecCur4850: f32 = ((this.fConst40 * this.fRec4850) - (this.fConst41 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4840))) + 6.0), 0.0)));
-        const fTemp51: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4850));
-        this.signal.left = <f32>((fTemp47 * fTemp51));
-        this.signal.right = <f32>((fTemp48 * fTemp51));
+        const fTemp0: f32 = (2.0 * this.fRec4521[<i32>(1)]);
+        const fTemp1: f32 = this.fRec4485[<i32>(1)];
+        this.fRec4485[<i32>(0)] = ((5.0 * <f32>(this.signal.left)) - (((this.fRec4485[<i32>(2)] * this.fConst9) + (this.fConst26 * fTemp1)) / this.fConst10));
+        const fTemp2: f32 = (this.fConst25 * (((this.fRec4485[<i32>(0)] + this.fRec4485[<i32>(2)]) - (2.0 * fTemp1)) / this.fConst10));
+        this.fVec4493[<i32>(0)] = fTemp2;
+        const fTemp3: f32 = this.fVec4493[<i32>(1)];
+        let fRecCur4501: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4501) - (this.fConst1 * (fTemp2 - fTemp3)))));
+        let fRecCur4509: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4509) - (fTemp2 + fTemp3))));
+        const fTemp4: f32 = ((1.4125375747680664 * fRecCur4501) + fRecCur4509);
+        const fTemp5: f32 = this.fRec4521[<i32>(1)];
+        this.fRec4521[<i32>(0)] = (fTemp4 - (((this.fRec4521[<i32>(2)] * this.fConst13) + (this.fConst28 * fTemp5)) / this.fConst14));
+        const fTemp6: f32 = (this.fRec4521[<i32>(0)] + this.fRec4521[<i32>(2)]);
+        const fTemp7: f32 = this.fRec4534[<i32>(1)];
+        this.fRec4534[<i32>(0)] = (((fTemp0 + fTemp6) / this.fConst14) - (((this.fRec4534[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp7)) / this.fConst16));
+        const fTemp9: f32 = this.fRec4534[<i32>(2)];
+        const fTemp10: f32 = ((this.fRec4534[<i32>(0)] + (2.0 * fTemp7)) + fTemp9);
+        const fTemp11: f32 = (2.0 * this.fRec4580[<i32>(1)]);
+        const fTemp12: f32 = this.fRec4548[<i32>(1)];
+        this.fRec4548[<i32>(0)] = ((5.0 * <f32>(this.signal.right)) - (((this.fRec4548[<i32>(2)] * this.fConst9) + (this.fConst26 * fTemp12)) / this.fConst10));
+        const fTemp13: f32 = (this.fConst25 * (((this.fRec4548[<i32>(0)] + this.fRec4548[<i32>(2)]) - (2.0 * fTemp12)) / this.fConst10));
+        this.fVec4556[<i32>(0)] = fTemp13;
+        const fTemp14: f32 = this.fVec4556[<i32>(1)];
+        let fRecCur4564: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4564) - (this.fConst1 * (fTemp13 - fTemp14)))));
+        let fRecCur4572: f32 = (-1.0 * (this.fConst5 * ((this.fConst2 * this.fRec4572) - (fTemp13 + fTemp14))));
+        const fTemp15: f32 = ((1.4125375747680664 * fRecCur4564) + fRecCur4572);
+        const fTemp16: f32 = this.fRec4580[<i32>(1)];
+        this.fRec4580[<i32>(0)] = (fTemp15 - (((this.fRec4580[<i32>(2)] * this.fConst13) + (this.fConst28 * fTemp16)) / this.fConst14));
+        const fTemp17: f32 = (this.fRec4580[<i32>(0)] + this.fRec4580[<i32>(2)]);
+        const fTemp18: f32 = this.fRec4593[<i32>(1)];
+        this.fRec4593[<i32>(0)] = (((fTemp11 + fTemp17) / this.fConst14) - (((this.fRec4593[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp18)) / this.fConst16));
+        const fTemp20: f32 = this.fRec4593[<i32>(2)];
+        const fTemp21: f32 = ((this.fRec4593[<i32>(0)] + (2.0 * fTemp18)) + fTemp20);
+        const fTemp22: f32 = Mathf.abs((Mathf.abs((fTemp10 / this.fConst16)) + Mathf.abs((fTemp21 / this.fConst16))));
+        const fTemp23: f32 = ((fTemp22 > this.fRec4615) ? this.fConst36 : this.fConst29);
+        let fRecCur4615: f32 = ((fTemp22 * (1.0 - fTemp23)) + (this.fRec4615 * fTemp23));
+        let fRecCur4625: f32 = ((this.fConst23 * this.fRec4625) - (this.fConst24 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4615))) + 24.0), 0.0)));
+        const fTemp24: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4625));
+        const fTemp25: f32 = ((fTemp24 * ((2.0 * (fTemp7 + fTemp18)) + (fTemp20 + (this.fRec4593[<i32>(0)] + (this.fRec4534[<i32>(0)] + fTemp9))))) / this.fConst16);
+        const fTemp26: f32 = this.fRec4648[<i32>(1)];
+        this.fRec4648[<i32>(0)] = ((this.fConst27 * ((fTemp6 - fTemp0) / this.fConst14)) - (((this.fRec4648[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp26)) / this.fConst16));
+        const fTemp27: f32 = this.fRec4666[<i32>(1)];
+        this.fRec4666[<i32>(0)] = ((this.fConst27 * (((this.fRec4648[<i32>(0)] + this.fRec4648[<i32>(2)]) - (2.0 * fTemp26)) / this.fConst16)) - (((this.fRec4666[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp27)) / this.fConst20));
+        const fTemp28: f32 = this.fRec4679[<i32>(1)];
+        this.fRec4679[<i32>(0)] = ((((this.fRec4666[<i32>(0)] + (2.0 * fTemp27)) + this.fRec4666[<i32>(2)]) / this.fConst20) - (((this.fRec4679[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp28)) / this.fConst22));
+        const fTemp29: f32 = ((this.fRec4679[<i32>(0)] + (2.0 * fTemp28)) + this.fRec4679[<i32>(2)]);
+        const fTemp30: f32 = this.fRec4701[<i32>(1)];
+        this.fRec4701[<i32>(0)] = ((this.fConst27 * ((fTemp17 - fTemp11) / this.fConst14)) - (((this.fRec4701[<i32>(2)] * this.fConst15) + (this.fConst28 * fTemp30)) / this.fConst16));
+        const fTemp31: f32 = this.fRec4715[<i32>(1)];
+        this.fRec4715[<i32>(0)] = ((this.fConst27 * (((this.fRec4701[<i32>(0)] + this.fRec4701[<i32>(2)]) - (2.0 * fTemp30)) / this.fConst16)) - (((this.fRec4715[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp31)) / this.fConst20));
+        const fTemp32: f32 = this.fRec4728[<i32>(1)];
+        this.fRec4728[<i32>(0)] = ((((this.fRec4715[<i32>(0)] + (2.0 * fTemp31)) + this.fRec4715[<i32>(2)]) / this.fConst20) - (((this.fRec4728[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp32)) / this.fConst22));
+        const fTemp33: f32 = ((this.fRec4728[<i32>(0)] + (2.0 * fTemp32)) + this.fRec4728[<i32>(2)]);
+        const fTemp34: f32 = Mathf.abs((Mathf.abs((fTemp29 / this.fConst22)) + Mathf.abs((fTemp33 / this.fConst22))));
+        const fTemp35: f32 = ((fTemp34 > this.fRec4750) ? this.fConst35 : this.fConst34);
+        let fRecCur4750: f32 = ((fTemp34 * (1.0 - fTemp35)) + (this.fRec4750 * fTemp35));
+        let fRecCur4760: f32 = ((this.fConst32 * this.fRec4760) - (this.fConst33 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4750))) + 22.0), 0.0)));
+        const fTemp36: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4760));
+        const fTemp37: f32 = this.fRec4770[<i32>(1)];
+        this.fRec4770[<i32>(0)] = (fTemp4 - (((this.fRec4770[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp37)) / this.fConst20));
+        const fTemp38: f32 = this.fRec4784[<i32>(1)];
+        this.fRec4784[<i32>(0)] = ((this.fConst30 * (((this.fRec4770[<i32>(0)] + this.fRec4770[<i32>(2)]) - (2.0 * fTemp37)) / this.fConst20)) - (((this.fRec4784[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp38)) / this.fConst22));
+        const fTemp39: f32 = ((this.fRec4784[<i32>(0)] + this.fRec4784[<i32>(2)]) - (2.0 * fTemp38));
+        const fTemp40: f32 = this.fRec4802[<i32>(1)];
+        this.fRec4802[<i32>(0)] = (fTemp15 - (((this.fRec4802[<i32>(2)] * this.fConst19) + (this.fConst31 * fTemp40)) / this.fConst20));
+        const fTemp41: f32 = this.fRec4816[<i32>(1)];
+        this.fRec4816[<i32>(0)] = ((this.fConst30 * (((this.fRec4802[<i32>(0)] + this.fRec4802[<i32>(2)]) - (2.0 * fTemp40)) / this.fConst20)) - (((this.fRec4816[<i32>(2)] * this.fConst21) + (this.fConst31 * fTemp41)) / this.fConst22));
+        const fTemp42: f32 = ((this.fRec4816[<i32>(0)] + this.fRec4816[<i32>(2)]) - (2.0 * fTemp41));
+        const fTemp43: f32 = Mathf.abs((Mathf.abs((this.fConst30 * (fTemp39 / this.fConst22))) + Mathf.abs((this.fConst30 * (fTemp42 / this.fConst22)))));
+        const fTemp44: f32 = ((fTemp43 > this.fRec4839) ? this.fConst39 : this.fConst38);
+        let fRecCur4839: f32 = ((fTemp43 * (1.0 - fTemp44)) + (this.fRec4839 * fTemp44));
+        let fRecCur4849: f32 = ((this.fConst36 * this.fRec4849) - (this.fConst37 * max<f32>((20.0 * (Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4839)) + 1.0)), 0.0)));
+        const fTemp45: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4849));
+        const fTemp46: f32 = (((fTemp24 * (fTemp10 - fTemp21)) / this.fConst16) + ((((fTemp29 * fTemp36) + (this.fConst30 * (fTemp39 * fTemp45))) - ((fTemp33 * fTemp36) + (this.fConst30 * (fTemp42 * fTemp45)))) / this.fConst22));
+        this.fVec4862[<i32>(0)] = fTemp46;
+        const fTemp47: f32 = this.fVec4862[<i32>(1)];
+        let fRecCur4870: f32 = (-1.0 * (this.fConst6 * ((this.fConst4 * this.fRec4870) - (this.fConst3 * (fTemp46 - fTemp47)))));
+        const fTemp48: f32 = (1.7999999523162842 * fRecCur4870);
+        const fTemp49: f32 = (((fTemp36 * (fTemp29 + fTemp33)) + (this.fConst30 * (fTemp45 * (fTemp39 + fTemp42)))) / this.fConst22);
+        let fRecCur4885: f32 = (-1.0 * (this.fConst6 * ((this.fConst4 * this.fRec4885) - (fTemp46 + fTemp47))));
+        const fTemp50: f32 = (fTemp25 + (fTemp48 + (fTemp49 + fRecCur4885)));
+        const fTemp51: f32 = ((fTemp49 + fTemp25) - (fRecCur4885 + fTemp48));
+        const fTemp52: f32 = Mathf.abs((Mathf.abs(fTemp50) + Mathf.abs(fTemp51)));
+        const fTemp53: f32 = ((fTemp52 > this.fRec4913) ? this.fConst43 : this.fConst42);
+        let fRecCur4913: f32 = ((fTemp52 * (1.0 - fTemp53)) + (this.fRec4913 * fTemp53));
+        let fRecCur4923: f32 = ((this.fConst40 * this.fRec4923) - (this.fConst41 * max<f32>(((20.0 * Mathf.log10(max<f32>(0.000000000000000000000000000000000000011754943508222875, fRecCur4913))) + 6.0), 0.0)));
+        const fTemp54: f32 = Mathf.pow(10.0, (0.05000000074505806 * fRecCur4923));
+        this.signal.left = <f32>(max<f32>(min<f32>((1.2999999523162842 * (fTemp50 * fTemp54)), 0.9800000190734863), -0.9800000190734863));
+        this.signal.right = <f32>(max<f32>(min<f32>((1.2999999523162842 * (fTemp51 * fTemp54)), 0.9800000190734863), -0.9800000190734863));
 
-        this.fRec4419[<i32>(2)] = this.fRec4419[<i32>(1)];
-        this.fRec4419[<i32>(1)] = this.fRec4419[<i32>(0)];
-        this.fVec4427[<i32>(1)] = this.fVec4427[<i32>(0)];
-        this.fRec4435 = fRecCur4435;
-        this.fRec4443 = fRecCur4443;
-        this.fRec4455[<i32>(2)] = this.fRec4455[<i32>(1)];
-        this.fRec4455[<i32>(1)] = this.fRec4455[<i32>(0)];
-        this.fRec4468[<i32>(2)] = this.fRec4468[<i32>(1)];
-        this.fRec4468[<i32>(1)] = this.fRec4468[<i32>(0)];
-        this.fRec4482[<i32>(2)] = this.fRec4482[<i32>(1)];
-        this.fRec4482[<i32>(1)] = this.fRec4482[<i32>(0)];
-        this.fVec4490[<i32>(1)] = this.fVec4490[<i32>(0)];
-        this.fRec4498 = fRecCur4498;
-        this.fRec4506 = fRecCur4506;
-        this.fRec4514[<i32>(2)] = this.fRec4514[<i32>(1)];
-        this.fRec4514[<i32>(1)] = this.fRec4514[<i32>(0)];
-        this.fRec4527[<i32>(2)] = this.fRec4527[<i32>(1)];
-        this.fRec4527[<i32>(1)] = this.fRec4527[<i32>(0)];
-        this.fRec4549 = fRecCur4549;
-        this.fRec4559 = fRecCur4559;
-        this.fRec4575[<i32>(2)] = this.fRec4575[<i32>(1)];
-        this.fRec4575[<i32>(1)] = this.fRec4575[<i32>(0)];
+        this.fRec4485[<i32>(2)] = this.fRec4485[<i32>(1)];
+        this.fRec4485[<i32>(1)] = this.fRec4485[<i32>(0)];
+        this.fVec4493[<i32>(1)] = this.fVec4493[<i32>(0)];
+        this.fRec4501 = fRecCur4501;
+        this.fRec4509 = fRecCur4509;
+        this.fRec4521[<i32>(2)] = this.fRec4521[<i32>(1)];
+        this.fRec4521[<i32>(1)] = this.fRec4521[<i32>(0)];
+        this.fRec4534[<i32>(2)] = this.fRec4534[<i32>(1)];
+        this.fRec4534[<i32>(1)] = this.fRec4534[<i32>(0)];
+        this.fRec4548[<i32>(2)] = this.fRec4548[<i32>(1)];
+        this.fRec4548[<i32>(1)] = this.fRec4548[<i32>(0)];
+        this.fVec4556[<i32>(1)] = this.fVec4556[<i32>(0)];
+        this.fRec4564 = fRecCur4564;
+        this.fRec4572 = fRecCur4572;
+        this.fRec4580[<i32>(2)] = this.fRec4580[<i32>(1)];
+        this.fRec4580[<i32>(1)] = this.fRec4580[<i32>(0)];
         this.fRec4593[<i32>(2)] = this.fRec4593[<i32>(1)];
         this.fRec4593[<i32>(1)] = this.fRec4593[<i32>(0)];
-        this.fRec4606[<i32>(2)] = this.fRec4606[<i32>(1)];
-        this.fRec4606[<i32>(1)] = this.fRec4606[<i32>(0)];
-        this.fRec4629[<i32>(2)] = this.fRec4629[<i32>(1)];
-        this.fRec4629[<i32>(1)] = this.fRec4629[<i32>(0)];
-        this.fRec4643[<i32>(2)] = this.fRec4643[<i32>(1)];
-        this.fRec4643[<i32>(1)] = this.fRec4643[<i32>(0)];
-        this.fRec4656[<i32>(2)] = this.fRec4656[<i32>(1)];
-        this.fRec4656[<i32>(1)] = this.fRec4656[<i32>(0)];
-        this.fRec4678 = fRecCur4678;
-        this.fRec4688 = fRecCur4688;
-        this.fRec4698[<i32>(2)] = this.fRec4698[<i32>(1)];
-        this.fRec4698[<i32>(1)] = this.fRec4698[<i32>(0)];
-        this.fRec4712[<i32>(2)] = this.fRec4712[<i32>(1)];
-        this.fRec4712[<i32>(1)] = this.fRec4712[<i32>(0)];
-        this.fRec4730[<i32>(2)] = this.fRec4730[<i32>(1)];
-        this.fRec4730[<i32>(1)] = this.fRec4730[<i32>(0)];
-        this.fRec4744[<i32>(2)] = this.fRec4744[<i32>(1)];
-        this.fRec4744[<i32>(1)] = this.fRec4744[<i32>(0)];
-        this.fRec4767 = fRecCur4767;
-        this.fRec4777 = fRecCur4777;
-        this.fVec4791[<i32>(1)] = this.fVec4791[<i32>(0)];
-        this.fRec4798 = fRecCur4798;
-        this.fRec4806 = fRecCur4806;
-        this.fRec4840 = fRecCur4840;
-        this.fRec4850 = fRecCur4850;
+        this.fRec4615 = fRecCur4615;
+        this.fRec4625 = fRecCur4625;
+        this.fRec4648[<i32>(2)] = this.fRec4648[<i32>(1)];
+        this.fRec4648[<i32>(1)] = this.fRec4648[<i32>(0)];
+        this.fRec4666[<i32>(2)] = this.fRec4666[<i32>(1)];
+        this.fRec4666[<i32>(1)] = this.fRec4666[<i32>(0)];
+        this.fRec4679[<i32>(2)] = this.fRec4679[<i32>(1)];
+        this.fRec4679[<i32>(1)] = this.fRec4679[<i32>(0)];
+        this.fRec4701[<i32>(2)] = this.fRec4701[<i32>(1)];
+        this.fRec4701[<i32>(1)] = this.fRec4701[<i32>(0)];
+        this.fRec4715[<i32>(2)] = this.fRec4715[<i32>(1)];
+        this.fRec4715[<i32>(1)] = this.fRec4715[<i32>(0)];
+        this.fRec4728[<i32>(2)] = this.fRec4728[<i32>(1)];
+        this.fRec4728[<i32>(1)] = this.fRec4728[<i32>(0)];
+        this.fRec4750 = fRecCur4750;
+        this.fRec4760 = fRecCur4760;
+        this.fRec4770[<i32>(2)] = this.fRec4770[<i32>(1)];
+        this.fRec4770[<i32>(1)] = this.fRec4770[<i32>(0)];
+        this.fRec4784[<i32>(2)] = this.fRec4784[<i32>(1)];
+        this.fRec4784[<i32>(1)] = this.fRec4784[<i32>(0)];
+        this.fRec4802[<i32>(2)] = this.fRec4802[<i32>(1)];
+        this.fRec4802[<i32>(1)] = this.fRec4802[<i32>(0)];
+        this.fRec4816[<i32>(2)] = this.fRec4816[<i32>(1)];
+        this.fRec4816[<i32>(1)] = this.fRec4816[<i32>(0)];
+        this.fRec4839 = fRecCur4839;
+        this.fRec4849 = fRecCur4849;
+        this.fVec4862[<i32>(1)] = this.fVec4862[<i32>(0)];
+        this.fRec4870 = fRecCur4870;
+        this.fRec4885 = fRecCur4885;
+        this.fRec4913 = fRecCur4913;
+        this.fRec4923 = fRecCur4923;
     }
 }
 

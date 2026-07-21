@@ -710,8 +710,8 @@ const padEnding = () => pad.play([
   [ 15.51, c7(2.07, 83) ]].quantize(4));
 // outro: a single kick + hihat hit (not a rhythm)
 const outroKickHat = () => {
-  kick.play([[ 0, c3(1.0, 110) ]]);
-  hihat.play([[ 0, fs3(1.0, 70) ]]);
+  createTrack(2).play([[ 0, c3(1.0, 110) ]]);   // fresh track -> lands at the current global beat
+  createTrack(4).play([[ 0, fs3(1.0, 70) ]]);   // (the reused kick/hihat cursors have drifted)
 };
 
 
@@ -900,5 +900,8 @@ createTrack(7).play([
 
 
 await waitDuration(16);
+
+// 4 beats of silence at the end
+await waitDuration(4);
 loopHere();
 
