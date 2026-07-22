@@ -9,10 +9,11 @@ process = 0.0 * freq * gain * gate;
 // ---- Mastering chain for a melodic electronic track ----
 // 0. input pre-gain (drives the comp thresholds + limiter) — loudness lever
 // 1. sub-rumble highpass (~30 Hz) + a gentle air shelf
-// 2. gentle 3-band glue compressor
-// 3. modest makeup drive
-// 4. bass-safe mid/side widener (widen the side only above ~250 Hz)
-// 5. 1176-style limiter, then output makeup into a -0.2 dBFS brickwall
+// 2. gentle 3-band multiband compressor (per-band control)
+// 3. SSL-style GLUE bus compressor (slow, low-ratio, full-band cohesion)
+// 4. modest makeup drive
+// 5. bass-safe mid/side widener (widen the side only above ~250 Hz)
+// 6. 1176-style limiter, then output makeup into a -0.2 dBFS brickwall
 input   = 3.0;    // pre-gain into the chain
 tone    = fi.highpass(2, 30) : fi.highshelf(1, 3, 9000);
 drive   = 2.5;
@@ -31,6 +32,17 @@ with {
     hicomp  = co.compressor_stereo(2.0, -20, 0.03,  0.25);
 };
 
+// SSL-style glue bus compressor: gentle ratio, slow attack (lets transients
+// through), medium release (~auto). Small makeup to recover the ~2-4 dB it
+// pulls down so the whole mix reads as one glued unit.
+glueRatio  = 1.5;
+glueThresh = -18;
+glueAtt    = 0.03;   // slow attack keeps punch
+glueRel    = 0.15;   // medium release, breathes with the groove
+glueMakeup = 1.35;   // ~+2.6 dB to compensate the glue gain reduction
+glue = co.compressor_stereo(glueRatio, glueThresh, glueAtt, glueRel)
+     : par(i, 2, *(glueMakeup));
+
 width = 1.5;
 fc    = 250;
 widen(l, r) = (m + sw), (m - sw)
@@ -45,6 +57,7 @@ brick = min(ceiling) : max(0.0 - ceiling);
 effect = par(i, 2, *(input))
        : par(i, 2, tone)
        : mbcompress
+       : glue
        : par(i, 2, *(drive))
        : widen
        : co.limiter_1176_R4_stereo
