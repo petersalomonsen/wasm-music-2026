@@ -23,6 +23,11 @@ pad = toneAt(0.9940) * 0.7
     + toneAt(1.0000) * 1.0
     + toneAt(1.0060) * 0.7;
 
-env = en.adsr(0.001, 2.5, 0.0, 0.2, gate);
+// Two-rate decay: a fast percussive front that collapses in ~0.1s, summed with
+// a slow body that keeps decaying for ~3s while the note is held. The steep
+// initial drop gives an almost plucked/percussive attack; the tail sustains.
+envFast = en.adsr(0.001, 0.10, 0.0, 0.10, gate) * 0.70;
+envSlow = en.adsr(0.001, 3.00, 0.0, 0.30, gate) * 0.45;
+env = envFast + envSlow;
 
-process = pad * 0.15 * gain * env;
+process = pad * 0.13 * gain * env;
